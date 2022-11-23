@@ -1,0 +1,10 @@
+### CREATE CUSTOMER
+POST http://{{quarkus_query_env}}/customer
+Content-Type: application/json
+
+{
+  "firstName" : "Joe",
+  "lastName" : "Average"
+}
+
+###

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+    <changeSet id="1" author="ffauvelet">
+        <sql>
+            create table customer (id uuid not null, first_name varchar(255), last_name varchar(255), primary key (id));
+            create table event (id uuid not null, end_date_time timestamp, nb_max_participant int4, start_date_time timestamp, teacher_id uuid, primary key (id));
+            create table event_customer (EventEntity_id uuid not null, participants_id uuid not null);
+            create table event_resource (event_id uuid not null, resource_id uuid not null);
+            create table resource (id uuid not null, name varchar(255), primary key (id));
+            create table teacher (id uuid not null, first_name varchar(255), last_name varchar(255), primary key (id));
+            alter table if exists event add constraint FK4ptte8x4mp81ysh24642091n1 foreign key (teacher_id) references teacher;
+            alter table if exists event_customer add constraint FKio19c3kv0ct699vfjre3cxlgr foreign key (participants_id) references customer;
+            alter table if exists event_customer add constraint FKc9nria0s1fo67k85ehvc5lisr foreign key (EventEntity_id) references event;
+            alter table if exists event_resource add constraint FKnabgvbvltfkwt12beqyuv0jje foreign key (resource_id) references resource;
+            alter table if exists event_resource add constraint FKf8rikkg8kf6593k1e6pyny8he foreign key (event_id) references event;
+        </sql>
+    </changeSet>
+    <changeSet id="2" author="ffauvelet">
+        <loadData tableName="resource"  file="./db/mock/01-init-data-resources.csv" separator=";"/>
+        <loadData tableName="teacher"   file="./db/mock/02-init-data-teachers.csv"  separator=";"/>
+    </changeSet>
+</databaseChangeLog>
+
