@@ -1,4 +1,4 @@
-package org.acme.out.entity;
+package org.acme.out.postgres.entity;
 
 import lombok.Data;
 

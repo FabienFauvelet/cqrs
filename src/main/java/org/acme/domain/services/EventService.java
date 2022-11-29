@@ -4,9 +4,9 @@ import org.acme.domain.model.Event;
 import org.acme.domain.model.Resource;
 import org.acme.domain.model.Teacher;
 import org.acme.out.messages.Publisher;
-import org.acme.out.repository.EventRepository;
-import org.acme.out.repository.ResourceRepository;
-import org.acme.out.repository.TeacherRepository;
+import org.acme.out.postgres.repository.EventRepository;
+import org.acme.out.postgres.repository.ResourceRepository;
+import org.acme.out.postgres.repository.TeacherRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -48,5 +48,10 @@ public class EventService {
             eventRepository.assignTeacher(eventId,teacher);
             publisher.publish(eventId,teacher);
         }
+    }
+
+    public void deleteEvent(UUID eventId) {
+        eventRepository.delete(eventId);
+        publisher.publishEventDeletion(eventId);
     }
 }

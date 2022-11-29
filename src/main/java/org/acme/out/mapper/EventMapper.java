@@ -4,9 +4,9 @@ import org.acme.domain.exception.InconsistentDomainDataException;
 import org.acme.domain.model.Event;
 import org.acme.domain.model.Resource;
 import org.acme.domain.model.Teacher;
-import org.acme.out.entity.EventEntity;
-import org.acme.out.entity.ResourceEntity;
-import org.acme.out.entity.TeacherEntity;
+import org.acme.out.postgres.entity.EventEntity;
+import org.acme.out.postgres.entity.ResourceEntity;
+import org.acme.out.postgres.entity.TeacherEntity;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "cdi")

@@ -1,4 +1,4 @@
-package org.acme.out.repository;
+package org.acme.out.postgres.repository;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
@@ -12,9 +12,10 @@ import org.acme.domain.exception.InconsistentDomainDataException;
 import org.acme.domain.model.Event;
 import org.acme.domain.model.Resource;
 import org.acme.domain.model.Teacher;
-import org.acme.out.entity.EventEntity;
-import org.acme.out.entity.ResourceEntity;
+import org.acme.out.postgres.entity.EventEntity;
+import org.acme.out.postgres.entity.ResourceEntity;
 import org.acme.out.mapper.EventMapper;
+
 @ApplicationScoped
 public class EventRepository implements PanacheRepository<EventEntity>{
     
@@ -56,5 +57,9 @@ public class EventRepository implements PanacheRepository<EventEntity>{
         EventEntity eventEntity = find("id",eventId).firstResult();
         eventEntity.setTeacher(eventMapper.toTeacherEntity(teacher));
         persistAndFlush(eventEntity);
+    }
+
+    public void delete(UUID eventId) {
+        delete("id",eventId);
     }
 }

@@ -34,7 +34,7 @@ public class EventResource {
     @DELETE
     @Path("/{eventId}")
     public void deleteEvent(@PathParam("eventId") UUID eventId){
-
+        eventService.deleteEvent(eventId);
     }
 
     @PUT

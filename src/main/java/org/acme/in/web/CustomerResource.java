@@ -36,5 +36,6 @@ public class CustomerResource {
     @DELETE
     @Path("/{customerId}")
     public void deleteCustomer(@PathParam("customerId") UUID customerId){
+
     }
 }
