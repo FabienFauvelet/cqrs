@@ -1,5 +1,5 @@
 ### CREATE EVENT
-POST http://{{quarkus_query_env}}/event
+POST http://{{quarkus_query_env}}/events
 Content-Type: application/json
 
 {
@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ### CREATE EVENT WITH ERROR
-POST http://{{quarkus_query_env}}/event
+POST http://{{quarkus_query_env}}/events
 Content-Type: application/json
 
 {

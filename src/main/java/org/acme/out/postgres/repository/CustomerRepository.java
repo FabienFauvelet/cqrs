@@ -8,14 +8,20 @@ import org.acme.out.mapper.CustomerMapper;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @ApplicationScoped
 public class CustomerRepository implements PanacheRepository<CustomerEntity> {
     @Inject
     CustomerMapper customerMapper;
     @Transactional
-    public void createCustomer(Customer customer){
+    public Customer createCustomer(Customer customer){
         CustomerEntity customerEntity =  customerMapper.toCustomerEntity(customer);
         persist(customerEntity);
+        return customerMapper.toCustomer(customerEntity);
+    }
+
+    public boolean exists(UUID eventId){
+        return find("id",eventId).count()>0;
     }
 }

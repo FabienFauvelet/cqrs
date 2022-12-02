@@ -5,14 +5,13 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Setter;
-import lombok.AccessLevel;
+import lombok.*;
 import org.acme.domain.exception.InconsistentDomainDataException;
 
 @Data
 @Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Event {
     private UUID id;
     @Setter(AccessLevel.NONE)

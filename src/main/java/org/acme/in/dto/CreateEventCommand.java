@@ -6,7 +6,7 @@ import java.util.UUID;
 import lombok.Data;
 
 @Data
-public class CreateEventQuery {
+public class CreateEventCommand {
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     private UUID teacherId;

@@ -1,0 +1,11 @@
+{
+  "id" : "19111eb9-7527-4830-9ace-bfd313110502",
+  "startDateTime": "2022-11-21T16:30:00Z",
+  "endDateTime": "2022-11-21T18:00:00Z",
+  "teacherId": "9614bb63-5949-43a2-a25a-a3c9b40039fd",
+  "reservedResources": [
+    "f5d79e1f-9f9d-4430-8000-7f86b58407e0",
+    "4e94466f-19d1-4517-9027-419b4be995f5"
+  ],
+  "nbMaxParticipant": 15
+}

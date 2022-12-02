@@ -1,6 +1,6 @@
 package org.acme.out.messages;
 
-import io.vertx.core.json.JsonObject;
+import org.acme.domain.model.Customer;
 import org.acme.domain.model.Event;
 import org.acme.domain.model.Resource;
 import org.acme.domain.model.Teacher;
@@ -37,7 +37,7 @@ public class Publisher {
                     .build())
         );
     }
-    public void publish(UUID eventId, Teacher teacher) {
+    public void publishTeacherAssignation(UUID eventId, Teacher teacher) {
         publish(new TeacherAssignationMessage(
                 TeacherAssignationMessage.getBodyBuilder()
                         .teacherId(teacher.getId())
@@ -45,7 +45,7 @@ public class Publisher {
         );
     }
 
-    public void publish(UUID eventId, Resource resource) {
+    public void publishResourceReservation(UUID eventId, Resource resource) {
         publish(new ResourceReservationMessage(
                 ResourceReservationMessage.getBodyBuilder()
                     .resourceId(resource.getId())
@@ -53,8 +53,45 @@ public class Publisher {
                     .build())
         );
     }
+    public void publishResourceRelease(UUID eventId, Resource resource) {
+        publish(new ResourceReleaseMessage(
+                ResourceReleaseMessage.getBodyBuilder()
+                        .resourceId(resource.getId())
+                        .eventId(eventId)
+                        .build())
+        );
+    }
 
     public void publishEventDeletion(UUID eventId) {
         publish(new EventDeletionMessage(EventDeletionMessage.getBodyBuilder().id(eventId).build()));
+    }
+
+    public void publishNewEnrolment(UUID eventId, UUID customerId) {
+        publish(new CustomerEnrolmentMessage(
+                CustomerEnrolmentMessage.getBodyBuilder()
+                        .eventId(eventId)
+                        .customerId(customerId)
+                        .build())
+        );
+    }
+
+    public void publishEnrolmentCancellation(UUID eventId, UUID customerId) {
+        publish(new CustomerEnrolmentCancellationMessage(
+                CustomerEnrolmentCancellationMessage.getBodyBuilder()
+                        .eventId(eventId)
+                        .customerId(customerId)
+                        .build())
+        );
+    }
+
+
+    public void publishCustomerCreation(Customer customer) {
+        publish(new CustomerCreationMessage(CustomerCreationMessage.getBodyBuilder()
+                .id(customer.getId())
+                .firstName(customer.getFirstName())
+                .lastName(customer.getLastName())
+                .birthDate(customer.getBirthDate())
+                .addressId(customer.getAddress().getId())
+                .build()));
     }
 }

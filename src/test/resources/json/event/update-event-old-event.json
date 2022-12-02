@@ -1,0 +1,19 @@
+{
+  "id": "19111eb9-7527-4830-9ace-bfd313110502",
+  "startDateTime": "2022-12-02T14:59:19.079987500",
+  "endDateTime": "2022-12-02T15:59:19.079987500",
+  "teacher": {"id": "ccc93ef3-c98f-45a3-b44a-43dd273dccca"},
+  "reservedResources": [
+    {"id": "f5d79e1f-9f9d-4430-8000-7f86b58407e0"},
+    {"id":"4e94466f-19d1-4517-9027-419b4be995f5"}
+  ],
+  "nbMaxParticipant": 0,
+  "participants": [
+    {
+      "id": "ac3bcde1-a1c0-4002-abcb-4c78e51cf8d5"
+    },
+    {
+      "id": "8eb28210-0f95-45c5-a2fa-0a852f0b6399"
+    }
+  ]
+}

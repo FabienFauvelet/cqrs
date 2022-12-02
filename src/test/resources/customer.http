@@ -1,5 +1,5 @@
 ### CREATE CUSTOMER
-POST http://{{quarkus_query_env}}/customer
+POST http://{{quarkus_query_env}}/customers
 Content-Type: application/json
 
 {

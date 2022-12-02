@@ -33,7 +33,7 @@ services:
     volumes:
       - ./volumes/nginx/templates:/etc/nginx/templates
     ports:
-      - "8081:80"
+      - "8090:80"
     environment:
       - NGINX_SERVERNAME=locahost
       - NGINX_PORT=80

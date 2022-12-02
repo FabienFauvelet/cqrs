@@ -7,4 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "cdi")
 public interface CustomerMapper {
     CustomerEntity toCustomerEntity(Customer customer);
+    Customer toCustomer(CustomerEntity customerEntity);
 }

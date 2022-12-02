@@ -1,5 +1,10 @@
 package org.acme.domain.model;
 
-public class Address {
+import lombok.Data;
 
+import java.util.UUID;
+
+@Data
+public class Address {
+    private UUID id;
 }

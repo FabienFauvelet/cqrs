@@ -47,19 +47,10 @@ You can then execute your native executable with: `./target/code-with-quarkus-1.
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
 
-## Related Guides
-
-- RESTEasy Classic ([guide](https://quarkus.io/guides/resteasy)): REST endpoint framework implementing JAX-RS and more
-
-## Provided Code
-
-### RESTEasy JAX-RS
-
-Easily start your RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
-
 # Docker
+## Active MQ
+> URL de la console (via reverse proxy nginx) http://localhost:8090/console/auth/login
+## Commandes annexes
 ```shell script
 sudo docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
 sudo docker run -d --hostname my-rabbit --name some-rabbit-management -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password -p 8081:15672 -p 5672:5672 rabbitmq:3.11.3-management
