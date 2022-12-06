@@ -26,7 +26,7 @@ public class EventService {
     @Inject CustomerRepository customerRepository;
     @Inject Publisher publisher;
 
-    public void addEvent(Event event) {
+    public void addEvent(Event event) throws InconsistentDomainDataException {
         UUID eventId = createEmptyEvent(event).getId();
         reserveResources(eventId, event.getReservedResources());
         assignTeacher(eventId, event.getTeacher());
@@ -34,7 +34,7 @@ public class EventService {
         /* TODO gérer les règles métiers du type, est ce que le nombre de participants est respecté,
             est ce que les ressources sont libres etc... */
     }
-    private Event createEmptyEvent(Event event) {
+    private Event createEmptyEvent(Event event) throws InconsistentDomainDataException {
         Event emptyEvent = event.toBuilder().participants(null).reservedResources(null).teacher(null).build();
         emptyEvent = eventRepository.createEvent(emptyEvent);
         publisher.publish(emptyEvent);

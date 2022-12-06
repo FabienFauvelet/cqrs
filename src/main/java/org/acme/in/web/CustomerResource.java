@@ -30,12 +30,13 @@ public class CustomerResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateCustomer(UpdateCustomerCommand updateCustomerCommand){
-        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+        customerService.updateCustomer(mapper.toCustomer(updateCustomerCommand));
+        return Response.ok().build();
     }
 
     @DELETE
     @Path("/{customerId}")
-    public Response deleteCustomer(@PathParam("customerId") UUID customerId){
-        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+    public void deleteCustomer(@PathParam("customerId") UUID customerId){
+        customerService.deleteCustomer(customerId);
     }
 }

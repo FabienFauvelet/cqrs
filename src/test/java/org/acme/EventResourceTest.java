@@ -3,6 +3,7 @@ import io.quarkus.test.junit.QuarkusMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 
+import org.acme.domain.exception.InconsistentDomainDataException;
 import org.acme.domain.model.Event;
 import org.acme.in.dto.CreateEventCommand;
 import org.acme.in.dto.UpdateEventCommand;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.acme.TestUtils.getValue;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
 import org.mockito.Mockito;
 
@@ -29,7 +31,7 @@ public class EventResourceTest {
     @Inject Publisher publisher;
     @Inject EventInMapper eventInMapper;
     @BeforeAll
-    public static void setup(){
+    public static void setup() throws InconsistentDomainDataException {
         EventRepository eventRepository = Mockito.mock(EventRepository.class);
         Mockito.when(eventRepository.createEvent(Event.builder().build()))
                 .thenReturn(Event.builder().build());
@@ -52,6 +54,18 @@ public class EventResourceTest {
           .then()
              .statusCode(201)
              .body(is(""));
+    }
+    @Test
+    public void testAddEventShouldFail() throws IOException, ClassNotFoundException {
+
+        CreateEventCommand createEventCommand = getValue("/json/event/create-inconsistent-event-command.json", CreateEventCommand.class);
+        given()
+                .when().contentType(ContentType.JSON)
+                .body(createEventCommand)
+                .post("/events")
+                .then()
+                .statusCode(500)
+                .body(is(notNullValue()));
     }
     @Test
     public void testAddEmptyEvent() throws IOException, ClassNotFoundException {

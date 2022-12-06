@@ -9,8 +9,6 @@ import lombok.*;
 import org.acme.domain.exception.InconsistentDomainDataException;
 
 @Data
-@Builder(toBuilder = true)
-@AllArgsConstructor
 @NoArgsConstructor
 public class Event {
     private UUID id;
@@ -22,6 +20,18 @@ public class Event {
     private ArrayList<Resource> reservedResources;
     private int nbMaxParticipant;
     private ArrayList<Customer> participants;
+
+    @Builder(toBuilder = true)
+
+    public Event(UUID id, LocalDateTime startDateTime, LocalDateTime endDateTime, Teacher teacher, ArrayList<Resource> reservedResources, int nbMaxParticipant, ArrayList<Customer> participants) throws InconsistentDomainDataException {
+        this.id = id;
+        this.setStartDateTime(startDateTime);
+        this.setEndDateTime(endDateTime);
+        this.teacher = teacher;
+        this.reservedResources = reservedResources;
+        this.nbMaxParticipant = nbMaxParticipant;
+        this.participants = participants;
+    }
 
     public void setStartDateTime(LocalDateTime startDateTime) throws InconsistentDomainDataException {
         if(endDateTime!= null && endDateTime.isBefore(startDateTime)){

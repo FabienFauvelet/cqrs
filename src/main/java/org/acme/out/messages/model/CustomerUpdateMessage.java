@@ -2,7 +2,7 @@ package org.acme.out.messages.model;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.acme.domain.model.Address;
+import org.acme.out.messages.model.shared.Address;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -23,7 +23,7 @@ public class CustomerUpdateMessage extends Message{
 
     @Builder
     @Getter
-    static class CustomerUpdateMessageBody {
+    public static class CustomerUpdateMessageBody {
         private UUID id;
         private String firstName;
         private String lastName;

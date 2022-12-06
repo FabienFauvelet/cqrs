@@ -17,11 +17,20 @@ public class CustomerRepository implements PanacheRepository<CustomerEntity> {
     @Transactional
     public Customer createCustomer(Customer customer){
         CustomerEntity customerEntity =  customerMapper.toCustomerEntity(customer);
-        persist(customerEntity);
+        persistAndFlush(customerEntity);
         return customerMapper.toCustomer(customerEntity);
     }
 
     public boolean exists(UUID eventId){
         return find("id",eventId).count()>0;
+    }
+    @Transactional
+    public void updateCustomer(Customer customer) {
+        CustomerEntity customerEntity =  customerMapper.toCustomerEntity(customer);
+        persistAndFlush(customerEntity);
+    }
+    @Transactional
+    public void delete(UUID customerId) {
+        delete("id",customerId);
     }
 }

@@ -1,15 +1,16 @@
 package org.acme.out.messages;
 
-import org.acme.domain.model.Customer;
-import org.acme.domain.model.Event;
-import org.acme.domain.model.Resource;
-import org.acme.domain.model.Teacher;
+import org.acme.domain.model.*;
 import org.acme.out.messages.model.*;
+import org.acme.out.messages.model.CustomerCreationMessage.CustomerCreationMessageBody.CustomerCreationMessageBodyBuilder;
+import org.acme.out.messages.model.CustomerUpdateMessage.CustomerUpdateMessageBody.CustomerUpdateMessageBodyBuilder;
+import org.acme.out.messages.model.shared.Address;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.util.Optional;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -86,12 +87,22 @@ public class Publisher {
 
 
     public void publishCustomerCreation(Customer customer) {
-        publish(new CustomerCreationMessage(CustomerCreationMessage.getBodyBuilder()
+        CustomerCreationMessageBodyBuilder builder = CustomerCreationMessage.getBodyBuilder()
                 .id(customer.getId())
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
-                .birthDate(customer.getBirthDate())
-                .addressId(customer.getAddress().getId())
-                .build()));
+                .birthDate(customer.getBirthDate());
+        Optional.ofNullable(customer.getAddress()).ifPresent(address -> builder.addressId(address.getId()));
+        publish(new CustomerCreationMessage(builder.build()));
+    }
+
+    public void publishCustomerUpdate(Customer customer) {
+        CustomerUpdateMessageBodyBuilder builder = CustomerUpdateMessage.getBodyBuilder()
+                .id(customer.getId())
+                .firstName(customer.getFirstName())
+                .lastName(customer.getLastName())
+                .birthDate(customer.getBirthDate());
+        Optional.ofNullable(customer.getAddress()).ifPresent(address -> builder.address(Address.builder().id(address.getId()).build()));
+        publish(new CustomerUpdateMessage(builder.build()));
     }
 }
