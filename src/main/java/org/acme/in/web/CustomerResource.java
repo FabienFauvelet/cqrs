@@ -1,8 +1,8 @@
 package org.acme.in.web;
 
 import org.acme.domain.services.CustomerService;
-import org.acme.in.dto.CreateCustomerCommand;
-import org.acme.in.dto.UpdateCustomerCommand;
+import org.acme.in.dto.customer.CreateCustomerCommand;
+import org.acme.in.dto.customer.UpdateCustomerCommand;
 import org.acme.in.mapper.CustomerInMapper;
 
 import javax.inject.Inject;

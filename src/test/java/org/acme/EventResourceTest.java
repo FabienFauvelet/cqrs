@@ -5,8 +5,8 @@ import io.restassured.http.ContentType;
 
 import org.acme.domain.exception.InconsistentDomainDataException;
 import org.acme.domain.model.Event;
-import org.acme.in.dto.CreateEventCommand;
-import org.acme.in.dto.UpdateEventCommand;
+import org.acme.in.dto.event.CreateEventCommand;
+import org.acme.in.dto.event.UpdateEventCommand;
 import org.acme.in.mapper.EventInMapper;
 import org.acme.out.messages.Publisher;
 import org.acme.out.postgres.repository.EventRepository;
@@ -45,7 +45,6 @@ public class EventResourceTest {
     }
     @Test
     public void testAddEvent() throws IOException, ClassNotFoundException {
-
         CreateEventCommand createEventCommand = getValue("/json/event/create-event-command.json", CreateEventCommand.class);
         given()
           .when().contentType(ContentType.JSON)
@@ -57,7 +56,6 @@ public class EventResourceTest {
     }
     @Test
     public void testAddEventShouldFail() throws IOException, ClassNotFoundException {
-
         CreateEventCommand createEventCommand = getValue("/json/event/create-inconsistent-event-command.json", CreateEventCommand.class);
         given()
                 .when().contentType(ContentType.JSON)

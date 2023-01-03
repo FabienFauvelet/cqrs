@@ -1,14 +1,16 @@
-package org.acme.out.messages.model;
+package org.acme.out.messages.model.resource;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.acme.out.messages.model.Message;
+import org.acme.out.messages.model.MessageType;
 
 import java.util.UUID;
 
 
 
 @Getter
-public class ResourceReservationMessage extends Message{
+public class ResourceReservationMessage extends Message {
     public ResourceReservationMessage(ResourceReservationMessageBody body) {
         super.setBody(body);
     }

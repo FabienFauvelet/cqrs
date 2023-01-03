@@ -1,4 +1,4 @@
-package org.acme.in.dto;
+package org.acme.in.dto.teacher;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

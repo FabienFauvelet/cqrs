@@ -9,8 +9,8 @@ import javax.ws.rs.core.Response;
 
 import org.acme.domain.exception.InconsistentDomainDataException;
 import org.acme.domain.services.EventService;
-import org.acme.in.dto.CreateEventCommand;
-import org.acme.in.dto.UpdateEventCommand;
+import org.acme.in.dto.event.CreateEventCommand;
+import org.acme.in.dto.event.UpdateEventCommand;
 import org.acme.in.mapper.EventInMapper;
 
 

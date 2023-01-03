@@ -1,7 +1,7 @@
 package org.acme.in.web;
 
-import org.acme.in.dto.CreateTeacherCommand;
-import org.acme.in.dto.UpdateTeacherCommand;
+import org.acme.in.dto.teacher.CreateTeacherCommand;
+import org.acme.in.dto.teacher.UpdateTeacherCommand;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

@@ -1,13 +1,15 @@
-package org.acme.out.messages.model;
+package org.acme.out.messages.model.customer;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.acme.out.messages.model.Message;
+import org.acme.out.messages.model.MessageType;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
-public class CustomerCreationMessage extends Message{
+public class CustomerCreationMessage extends Message {
     public CustomerCreationMessage(CustomerCreationMessage.CustomerCreationMessageBody body) {
         super.setBody(body);
     }

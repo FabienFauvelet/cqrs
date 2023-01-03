@@ -1,9 +1,9 @@
-package org.acme.in.dto;
+package org.acme.in.dto.teacher;
 
 import lombok.Data;
 
 @Data
-public class CreateCustomerCommand {
+public class CreateTeacherCommand {
     private String firstName;
     private String lastName;
 }

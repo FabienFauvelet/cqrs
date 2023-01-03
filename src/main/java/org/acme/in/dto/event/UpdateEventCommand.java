@@ -1,4 +1,4 @@
-package org.acme.in.dto;
+package org.acme.in.dto.event;
 
 import java.util.UUID;
 import lombok.Getter;

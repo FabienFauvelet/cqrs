@@ -1,13 +1,15 @@
-package org.acme.out.messages.model;
+package org.acme.out.messages.model.enrolment;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.acme.out.messages.model.Message;
+import org.acme.out.messages.model.MessageType;
 
 import java.util.UUID;
 
 
 @Getter
-public class CustomerEnrolmentMessage extends Message{
+public class CustomerEnrolmentMessage extends Message {
     public CustomerEnrolmentMessage(CustomerEnrolmentMessageBody body) {
         super.setBody(body);
     }

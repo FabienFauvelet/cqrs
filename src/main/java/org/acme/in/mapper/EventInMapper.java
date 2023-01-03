@@ -4,8 +4,8 @@ import org.acme.domain.exception.InconsistentDomainDataException;
 import org.acme.domain.model.Event;
 import org.acme.domain.model.Resource;
 import org.acme.domain.model.Teacher;
-import org.acme.in.dto.CreateEventCommand;
-import org.acme.in.dto.UpdateEventCommand;
+import org.acme.in.dto.event.CreateEventCommand;
+import org.acme.in.dto.event.UpdateEventCommand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

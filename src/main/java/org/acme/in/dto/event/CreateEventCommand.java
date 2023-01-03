@@ -1,4 +1,4 @@
-package org.acme.in.dto;
+package org.acme.in.dto.event;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
