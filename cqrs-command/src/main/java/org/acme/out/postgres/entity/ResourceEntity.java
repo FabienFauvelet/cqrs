@@ -23,4 +23,8 @@ public class ResourceEntity {
     @Id @GeneratedValue(generator = "UUID")  private UUID id;
     @Column(name = "name")
     private String name;
+    @Column(name = "type")
+    private String type;
+    @Column(name = "capacity")
+    private int capacity;
 }

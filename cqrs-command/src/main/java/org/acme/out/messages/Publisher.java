@@ -10,10 +10,11 @@ import org.acme.out.messages.model.enrolment.CustomerEnrolmentCancellationMessag
 import org.acme.out.messages.model.enrolment.CustomerEnrolmentMessage;
 import org.acme.out.messages.model.event.EventCreationMessage;
 import org.acme.out.messages.model.event.EventDeletionMessage;
-import org.acme.out.messages.model.resource.ResourceReleaseMessage;
-import org.acme.out.messages.model.resource.ResourceReservationMessage;
+import org.acme.out.messages.model.resource.*;
 import org.acme.out.messages.model.shared.Address;
 import org.acme.out.messages.model.teacher.TeacherAssignationMessage;
+import org.acme.out.messages.model.teacher.TeacherCreationMessage;
+import org.acme.out.messages.model.teacher.TeacherUpdateMessage;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
@@ -113,5 +114,53 @@ public class Publisher {
                 .birthDate(customer.getBirthDate());
         Optional.ofNullable(customer.getAddress()).ifPresent(address -> builder.address(Address.builder().id(address.getId()).build()));
         publish(new CustomerUpdateMessage(builder.build()));
+    }
+
+    public void publishTeacherCreation(Teacher teacher) {
+        publish(new TeacherCreationMessage(TeacherCreationMessage.getBodyBuilder()
+                .id(teacher.getId())
+                .firstName(teacher.getFirstName())
+                .lastName(teacher.getLastName())
+                .build())
+        );
+    }
+
+    public void publishTeacherUpdate(Teacher teacher) {
+        publish(new TeacherUpdateMessage(TeacherUpdateMessage.getBodyBuilder()
+                .id(teacher.getId())
+                .firstName(teacher.getFirstName())
+                .lastName(teacher.getLastName())
+                .build())
+        );
+    }
+
+    public void publishTeacherDeletion(UUID teacherId) {
+        publish(new TeacherUpdateMessage(TeacherUpdateMessage.getBodyBuilder()
+                .id(teacherId)
+                .build())
+        );
+    }
+
+    public void publishResourceCreation(Resource resource) {
+        publish(new ResourceCreationMessage(ResourceCreationMessage.getBodyBuilder()
+                .id(resource.getId())
+                .name(resource.getName())
+                .build())
+        );
+    }
+
+    public void publishResourceUpdate(Resource resource) {
+        publish(new ResourceUpdateMessage(ResourceUpdateMessage.getBodyBuilder()
+                .id(resource.getId())
+                .name(resource.getName())
+                .build())
+        );
+    }
+
+    public void publishResourceDeletion(UUID resourceId) {
+        publish(new ResourceDeletionMessage(ResourceDeletionMessage.getBodyBuilder()
+                .id(resourceId)
+                .build())
+        );
     }
 }
