@@ -1,6 +1,6 @@
 package models.in;
 
-import facade.InsertionResource;
+import facade.AgendaResource;
 
 public abstract class TopicMessage {
 
@@ -29,5 +29,5 @@ public abstract class TopicMessage {
         return this.body;
     }
 
-    public abstract void insertObject(InsertionResource resource);
+    public abstract void insertObject(AgendaResource resource);
 }

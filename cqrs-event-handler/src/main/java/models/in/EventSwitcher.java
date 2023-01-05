@@ -28,8 +28,10 @@ public class EventSwitcher {
             return switch (messageType) {
                 case EVENT_CREATION -> new EventCourseCreation(this.messageType, this.body);
                 case TEACHER_ASSIGNATION -> new EventTeacherAssignation(this.messageType,this.body);
-                case RESOURCE_RESERVATION -> new EventResourceReservation(this.messageType,this.body);
                 case TEACHER_CREATION -> new EventTeacherCreation(this.messageType,this.body);
+                case CUSTOMER_ENROLMENT -> new EventCustomerEnrolment(this.messageType,this.body);
+                case CUSTOMER_ENROLMENT_CANCELLATION -> new EventCustomerUnrolment(this.messageType,this.body);
+                case RESOURCE_RESERVATION -> new EventResourceReservation(this.messageType,this.body);
                 case RESOURCE_CREATION -> null;
                 case RESOURCE_RELEASE -> null;
                 case EVENT_DELETION -> null;

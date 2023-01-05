@@ -3,7 +3,7 @@ package models.in;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import facade.InsertionResource;
+import facade.AgendaResource;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,7 +38,7 @@ public class EventCourseCreation extends TopicMessage {
     }
 
     @Override
-    public void insertObject(InsertionResource resource)
+    public void insertObject(AgendaResource resource)
     {
         EventCreationBody myBody = getBody();
         resource.createEvent(myBody.id,myBody.startDateTime,myBody.endDateTime,myBody.nbMaxParticipant);

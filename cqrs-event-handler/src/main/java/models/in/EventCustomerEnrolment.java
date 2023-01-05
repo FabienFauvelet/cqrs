@@ -1,11 +1,18 @@
 package models.in;
 
-import facade.InsertionResource;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import facade.AgendaResource;
 
 import java.util.UUID;
 
 public class EventCustomerEnrolment extends TopicMessage
 {
+    public EventCustomerEnrolment(){}
+    public EventCustomerEnrolment(EventType type, Object body)
+    {
+        super.setMessageType(type);
+        super.setBody(new ObjectMapper().convertValue(body, EventCustomerEnrolment.EventCustomerEnrolmentBody.class));
+    }
 
     @Override
     public EventType getMessageType()
@@ -14,7 +21,7 @@ public class EventCustomerEnrolment extends TopicMessage
     }
 
     @Override
-    public void insertObject(InsertionResource resource)
+    public void insertObject(AgendaResource resource)
     {
         UUID eventId = ((EventCustomerEnrolmentBody)getBody()).eventId;
         UUID customerId = ((EventCustomerEnrolmentBody)getBody()).customerId;

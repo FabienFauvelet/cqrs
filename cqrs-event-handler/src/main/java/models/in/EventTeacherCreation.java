@@ -2,7 +2,7 @@ package models.in;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import facade.InsertionResource;
+import facade.AgendaResource;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +23,7 @@ public class EventTeacherCreation extends TopicMessage{
     }
 
     @Override
-    public void insertObject(InsertionResource resource)
+    public void insertObject(AgendaResource resource)
     {
         EventTeacherCreationBody myBody = (EventTeacherCreationBody) getBody();
         resource.createTeacher(myBody.getTeacherId(), myBody.getLastname(), myBody.getFirstname());

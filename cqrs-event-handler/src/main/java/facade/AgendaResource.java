@@ -4,6 +4,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.result.InsertOneResult;
 import models.Customer;
 import models.Resource;
@@ -19,7 +20,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @ApplicationScoped
-public class InsertionResource
+public class AgendaResource
 {
     @Inject MongoClient mongoClient;
 
@@ -28,7 +29,14 @@ public class InsertionResource
     public MongoCollection<Document> getCustomerCollection(){return mongoClient.getDatabase("references").getCollection("customers");}
     public MongoCollection<Document> getResourcesCollection(){return mongoClient.getDatabase("references").getCollection("resources");}
     public MongoCollection<Document> getTeacherCollection(){return mongoClient.getDatabase("references").getCollection("teachers");}
+    public MongoCollection<Document> getCoursesCollectionByCustomerId(String customerId){return mongoClient.getDatabase("courses").getCollection(customerId);}
 
+    public void createCustomerCollection(String customerId)
+    {
+        mongoClient.getDatabase("courses").createCollection(customerId);
+    }
+
+    //Creation d'un cours
     public void createEvent(UUID id, LocalDateTime startDateTime, LocalDateTime endDateTime, int nbMaxParticipant)
     {
         InsertOneResult res = getCoursesCollection().insertOne(new Document()
@@ -39,10 +47,47 @@ public class InsertionResource
         System.out.println("Insertion : " + res);
     }
 
+    //Creation d'un client
+    public void createCustomer(UUID customerId, String firstname, String lastname)
+    {
+        //Creation de la collection dédiée
+        createCustomerCollection(customerId.toString());
+
+        //Creation du client dans la collection clients
+        getCustomerCollection().insertOne(new Document()
+                .append("_id",customerId.toString())
+                .append("firstname",firstname)
+                .append("lastname",lastname)
+        );
+    }
+
+    //Inscription d'un membre à un cours
     public void enrollCustomer(UUID eventId, UUID customerId)
     {
-        //TODO Enrolemnt !
-        getCoursesCollection().findOneAndUpdate(new Document().append("_id",eventId.toString()),new Document().append("customers",customerId));
+        //TODO Test Find and update!
+        //Ajout du client sur le cours
+        Document d = getCoursesCollection().findOneAndUpdate(new Document().append("_id",eventId.toString())
+                ,new Document().append("$push", new Document("customers",customerId.toString()))
+                ,new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER));
+
+        //Ajout de l'élément d'agenda dans le calendrier du client
+        getCoursesCollectionByCustomerId(customerId.toString()).insertOne(new Document()
+                .append("_id",d.getString("_id"))
+                .append("firstName",d.getString("firstName"))
+                .append("lastName",d.getString("lastName"))
+        );
+    }
+
+    //Désinscription d'un membre à un cours
+    public void unrollCustomer(UUID eventId, UUID customerId)
+    {
+        //Suppression dans la liste des participants du cours
+        Document d = getCoursesCollection().findOneAndUpdate(new Document().append("_id",eventId.toString())
+                ,new Document().append("$pop", new Document("customers",customerId.toString()))
+                ,new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER));
+
+        //Suppression de l'élément dans le calendrier du client
+        getCoursesCollectionByCustomerId(customerId.toString()).deleteOne(new Document().append("_id",eventId.toString()));
     }
 
     public void deleteEvent(UUID courseId)
@@ -100,23 +145,6 @@ public class InsertionResource
 
     }
 
-
-    public MongoCollection<Document> getCoursesCollectionByCustomerId(String customerId)
-    {
-        return mongoClient.getDatabase("courses").getCollection(customerId);
-    }
-
-    public void createCustomerCollection(String customerId)
-    {
-        mongoClient.getDatabase("courses").createCollection(customerId);
-    }
-
-    public void addCustomer(String customerId)
-    {
-        getCustomerCollection().insertOne(new Document().append("_id",customerId));
-    }
-
-
     public void addResourceToEvent(UUID eventId, UUID resourceId)
     {
         //TODO Rechercher info resources dans refResources puis ajouter les info dans l'event
@@ -136,6 +164,5 @@ public class InsertionResource
         //TODO AddElement
         //On ajoute la resource dans le calendrier du prof
             //Recherche dans l'élément dans le calendrier du prof
-
     }
 }

@@ -2,7 +2,7 @@ package models.in;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import facade.InsertionResource;
+import facade.AgendaResource;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +27,7 @@ public class EventCourseDeletion extends TopicMessage
     }
 
     @Override
-    public void insertObject(InsertionResource resource) //On insère rien, mais on supprime de la bdd :)
+    public void insertObject(AgendaResource resource) //On insère rien, mais on supprime de la bdd :)
     {
         UUID eventId = ((EventCourseDeletion.EventCourseDeletionBody)getBody()).getEventId();
         EventCourseDeletion.EventCourseDeletionBody myBody = (EventCourseDeletion.EventCourseDeletionBody) getBody();

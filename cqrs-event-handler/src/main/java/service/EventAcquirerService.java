@@ -2,7 +2,7 @@ package service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import facade.InsertionResource;
+import facade.AgendaResource;
 import models.in.EventSwitcher;
 import models.in.TopicMessage;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 public class EventAcquirerService{
 
     @Inject
-    InsertionResource insertionResource;
+    AgendaResource agendaResource;
 
     @Incoming("main-in")
     public void process(byte[] message)
@@ -27,7 +27,7 @@ public class EventAcquirerService{
             EventSwitcher switcher = new ObjectMapper().readValue(jsonTxtMsg, EventSwitcher.class);
             TopicMessage genericMsg = switcher.toInsertObjectType();
 
-            genericMsg.insertObject(insertionResource);
+            genericMsg.insertObject(agendaResource);
 
 
             System.out.println("Réussite  ! : " + genericMsg.getMessageType().toString());

@@ -2,7 +2,7 @@ package models.in;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import facade.InsertionResource;
+import facade.AgendaResource;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +27,7 @@ public class EventResourceReservation extends TopicMessage
     }
 
     @Override
-    public void insertObject(InsertionResource resource)
+    public void insertObject(AgendaResource resource)
     {
         UUID eventId = ((EventResourceReservationBody)getBody()).getEventId();
         EventResourceReservationBody myBody = (EventResourceReservationBody) getBody();
