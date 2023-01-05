@@ -1,7 +1,7 @@
 ---
 version: "3"
 services:
-  postgres:
+  postgres-command:
     container_name : postgres_container
     image: postgres:latest
     environment:
@@ -12,6 +12,36 @@ services:
       - 5432:5432
     volumes:
       - ./volumes/postgres/db:/var/lib/postgresql
+  postgres-referenciel:
+    container_name: postgres_container_query
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 5UP3r53Cr37
+      PGDATA: /data/postgres
+    ports:
+      - 5433:5433
+    volumes:
+      - ./volumes/postgres/db:/var/lib/postgresql
+  mongo:
+    container_name: mongo_container
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: courses
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.2
+    ports:
+      - 9200:9200
+    environment:
+      node.name: elasticsearch
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      discovery.type: single-node
   artemis:
     image: quay.io/artemiscloud/activemq-artemis-broker:0.1.2
     ports:

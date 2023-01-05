@@ -24,8 +24,8 @@
         </sql>
     </changeSet>
     <changeSet id="2" author="ffauvelet">
-        <loadData tableName="resource"  file="./db/mock/01-init-data-resources.csv" separator=";"/>
-        <loadData tableName="teacher"   file="./db/mock/02-init-data-teachers.csv"  separator=";"/>
+        <loadData tableName="resource"  file="/db/mock/01-init-data-resources.csv" separator=";"/>
+        <loadData tableName="teacher"   file="/db/mock/02-init-data-teachers.csv"  separator=";"/>
     </changeSet>
 </databaseChangeLog>
 
