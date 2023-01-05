@@ -12,9 +12,10 @@ import java.util.UUID;
 public class TeacherService {
     @Inject Publisher publisher;
     @Inject TeacherRepository teacherRepository;
-    public void addTeacher(Teacher teacher){
+    public Teacher addTeacher(Teacher teacher){
         teacher=teacherRepository.createTeacher(teacher);
         publisher.publishTeacherCreation(teacher);
+        return teacher;
     }
     public void updateTeacher(Teacher teacher){
         teacherRepository.updateTeacher(teacher);

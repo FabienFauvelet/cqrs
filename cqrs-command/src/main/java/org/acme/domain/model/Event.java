@@ -2,6 +2,7 @@ package org.acme.domain.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -17,13 +18,13 @@ public class Event {
     @Setter(AccessLevel.NONE)
     private LocalDateTime endDateTime;
     private Teacher teacher;
-    private ArrayList<Resource> reservedResources;
+    private List<Resource> reservedResources;
     private int nbMaxParticipant;
-    private ArrayList<Customer> participants;
+    private List<Customer> participants;
 
     @Builder(toBuilder = true)
 
-    public Event(UUID id, LocalDateTime startDateTime, LocalDateTime endDateTime, Teacher teacher, ArrayList<Resource> reservedResources, int nbMaxParticipant, ArrayList<Customer> participants) throws InconsistentDomainDataException {
+    public Event(UUID id, LocalDateTime startDateTime, LocalDateTime endDateTime, Teacher teacher, List<Resource> reservedResources, int nbMaxParticipant, List<Customer> participants) throws InconsistentDomainDataException {
         this.id = id;
         this.setStartDateTime(startDateTime);
         this.setEndDateTime(endDateTime);

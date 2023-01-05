@@ -27,5 +27,22 @@
         <loadData tableName="resource"  file="/db/mock/01-init-data-resources.csv" separator=";"/>
         <loadData tableName="teacher"   file="/db/mock/02-init-data-teachers.csv"  separator=";"/>
     </changeSet>
+    <changeSet id="3" author="ffauvelet">
+        <delete  tableName="resource"/>
+        <delete tableName="teacher"/>
+        <sql>
+            create table address (id uuid not null, street varchar(255), zipCode varchar(255),city varchar(255),primary key (id));
+        </sql>
+        <addColumn tableName="customer">
+            <column name="birthdate" type="date"/>
+            <column name="address_id" type="uuid"/>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="customer" baseColumnNames="address_id" constraintName="FKjls9pllu6giwsqu9l6bli4bs4" referencedTableName="address"
+                                 referencedColumnNames="id"/>
+        <addColumn tableName="resource">
+            <column name="type" type="char(255)"/>
+            <column name="capacity" type="smallint"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
 

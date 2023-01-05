@@ -20,7 +20,7 @@ public class CustomerRepository implements PanacheRepository<CustomerEntity> {
         persistAndFlush(customerEntity);
         return customerMapper.toCustomer(customerEntity);
     }
-
+@Transactional
     public boolean exists(UUID eventId){
         return find("id",eventId).count()>0;
     }

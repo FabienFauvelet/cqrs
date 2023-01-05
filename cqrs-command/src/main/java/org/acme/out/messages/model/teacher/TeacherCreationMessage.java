@@ -16,7 +16,7 @@ public class TeacherCreationMessage extends Message {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.RESOURCE_CREATION;
+        return MessageType.TEACHER_CREATION;
     }
     public static TeacherCreationMessageBody.TeacherCreationMessageBodyBuilder getBodyBuilder(){
         return TeacherCreationMessageBody.builder();

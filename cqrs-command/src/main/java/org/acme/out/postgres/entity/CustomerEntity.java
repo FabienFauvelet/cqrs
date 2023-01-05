@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.acme.domain.model.Address;
 
+import java.time.LocalDate;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "customer")
@@ -26,4 +24,9 @@ public class CustomerEntity {
 
     @Column(name = "last_name")
     private String lastName;
+    @Column(name = "birthdate")
+    private LocalDate birthDate;
+    @OneToOne( cascade = CascadeType.ALL )
+    @JoinColumn(name="address_id")
+    private AddressEntity address;
 }

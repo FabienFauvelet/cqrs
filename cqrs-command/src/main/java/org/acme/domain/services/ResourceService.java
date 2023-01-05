@@ -12,9 +12,10 @@ import java.util.UUID;
 public class ResourceService {
     @Inject Publisher publisher;
     @Inject ResourceRepository resourceRepository;
-    public void addResource(Resource resource){
+    public Resource addResource(Resource resource){
         resource = resourceRepository.createResource(resource);
         publisher.publishResourceCreation(resource);
+        return resource;
     }
     public void updateResource(Resource resource){
         resourceRepository.updateResource(resource);

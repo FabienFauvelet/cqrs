@@ -16,7 +16,7 @@ public class ResourceDeletionMessage extends Message {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.RESOURCE_UPDATE;
+        return MessageType.RESOURCE_DELETION;
     }
     public static ResourceDeletionMessageBody.ResourceDeletionMessageBodyBuilder getBodyBuilder(){
         return ResourceDeletionMessageBody.builder();

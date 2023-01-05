@@ -31,6 +31,7 @@ public class ResourceRepository implements PanacheRepository<ResourceEntity> {
     public void delete(UUID resourceId) {
         delete("id",resourceId);
     }
+    @Transactional
     public boolean exists(UUID id) {
         return count("id",id) > 0;
     }

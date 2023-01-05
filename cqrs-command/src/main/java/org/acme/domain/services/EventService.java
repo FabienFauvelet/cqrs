@@ -40,7 +40,7 @@ public class EventService {
         publisher.publish(emptyEvent);
         return emptyEvent;
     }
-    private void enrollCustomers(UUID eventId, ArrayList<Customer> customers){
+    private void enrollCustomers(UUID eventId, List<Customer> customers){
         if(customers!=null && customers.stream().allMatch(customer -> customerRepository.exists(customer.getId()))){
             customers.forEach(customer -> {
                 eventRepository.enrollCustomer(eventId,customer);
@@ -49,7 +49,7 @@ public class EventService {
             );
         }
     }
-    private void reserveResources(UUID eventId, ArrayList<Resource> resources) {
+    private void reserveResources(UUID eventId, List<Resource> resources) {
         if(resources!=null && resources.stream().allMatch(resource -> resourceRepository.exists(resource.getId()))){
             resources.forEach(resource -> {
                 eventRepository.reserveResource(eventId,resource);
@@ -93,7 +93,7 @@ public class EventService {
 
 
     }
-    private <T> List<T> getRemovedBetweenTwoLists(ArrayList<T> oldList, ArrayList<T> newList){
+    private <T> List<T> getRemovedBetweenTwoLists(List<T> oldList, List<T> newList){
         if(oldList != null){
             if(newList != null){
                 return oldList.stream()
@@ -107,7 +107,7 @@ public class EventService {
         }
 
     }
-    private <T> List<T> getAddedBetweenTwoLists(ArrayList<T> oldList, ArrayList<T> newList){
+    private <T> List<T> getAddedBetweenTwoLists(List<T> oldList, List<T> newList){
         return getRemovedBetweenTwoLists(newList,oldList);
     }
 }

@@ -16,7 +16,7 @@ public class TeacherDeletionMessage extends Message {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.RESOURCE_UPDATE;
+        return MessageType.TEACHER_DELETION;
     }
     public static TeacherDeletionMessageBody.TeacherDeletionMessageBodyBuilder getBodyBuilder(){
         return TeacherDeletionMessageBody.builder();

@@ -14,10 +14,11 @@ public class CustomerService {
     CustomerRepository customerRepository;
     @Inject
     Publisher publisher;
-    public void addCustomer(Customer customer) {
+    public Customer addCustomer(Customer customer) {
         customer = customerRepository.createCustomer(customer);
         // TODO PUBLISH CREATE ADDRESS
         publisher.publishCustomerCreation(customer);
+        return customer;
     }
 
     public void updateCustomer(Customer customer) {

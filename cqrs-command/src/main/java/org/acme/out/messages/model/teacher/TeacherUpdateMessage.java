@@ -16,7 +16,7 @@ public class TeacherUpdateMessage extends Message {
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.RESOURCE_UPDATE;
+        return MessageType.TEACHER_UPDATE;
     }
     public static TeacherUpdateMessageBody.TeacherUpdateMessageBodyBuilder getBodyBuilder(){
         return TeacherUpdateMessageBody.builder();

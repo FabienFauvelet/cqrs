@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Salle de cours 1",
+    "type": "Salle",
+    "capacity":"15"
+  },
+  {
+    "name": "Salle Aquabiking",
+    "type": "Salle",
+    "capacity":"15"
+  },
+  {
+    "name": "Haltères",
+    "type": "Matériel",
+    "capacity":"15"
+  },
+  {
+    "name": "Ballons pilates",
+    "type": "Matériel",
+    "capacity":"15"
+  },
+  {
+    "name": "Barre de son",
+    "type": "Animation",
+    "capacity":"0"
+  }
+]

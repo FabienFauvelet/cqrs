@@ -31,6 +31,7 @@ public class TeacherRepository implements PanacheRepository<TeacherEntity> {
     public void delete(UUID teacherId) {
         delete("id",teacherId);
     }
+    @Transactional
     public boolean exists(UUID id) {
         return count("id",id) > 0;
     }
