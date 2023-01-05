@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Getter
 public class ResourceReleaseMessage extends Message {
-    public ResourceReleaseMessage(ResourceReservationMessageBody body) {
+    public ResourceReleaseMessage(ResourceReleaseMessageBody body) {
         super.setBody(body);
     }
 
@@ -18,12 +18,12 @@ public class ResourceReleaseMessage extends Message {
     public MessageType getMessageType() {
         return MessageType.RESOURCE_RELEASE;
     }
-    public static ResourceReservationMessageBody.ResourceReservationMessageBodyBuilder getBodyBuilder(){
-        return ResourceReservationMessageBody.builder();
+    public static ResourceReleaseMessageBody.ResourceReleaseMessageBodyBuilder getBodyBuilder(){
+        return ResourceReleaseMessageBody.builder();
     }
     @Builder
     @Getter
-    static class ResourceReservationMessageBody {
+    static class ResourceReleaseMessageBody {
         private UUID eventId;
         private UUID resourceId;
     }
