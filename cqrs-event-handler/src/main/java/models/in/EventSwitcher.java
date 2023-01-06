@@ -1,7 +1,12 @@
 package models.in;
+import com.aayushatharva.brotli4j.common.annotations.Local;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 import static models.in.EventType.*;
 
@@ -11,13 +16,15 @@ import static models.in.EventType.*;
 public class EventSwitcher {
 
     private EventType messageType;
+    private LocalDateTime localDateTime;
     private Object body; //LinkedHashMap
 
     public EventSwitcher(){}
 
-    public EventSwitcher(String eventType, Object body)
+    public EventSwitcher(String eventType, LocalDateTime localDateTime, Object body)
     {
         this.messageType = valueOf(eventType);
+        this.localDateTime = localDateTime;
         this.body = body;
     }
 
@@ -32,7 +39,8 @@ public class EventSwitcher {
                 case CUSTOMER_ENROLMENT -> new EventCustomerEnrolment(this.messageType,this.body);
                 case CUSTOMER_ENROLMENT_CANCELLATION -> new EventCustomerUnrolment(this.messageType,this.body);
                 case RESOURCE_RESERVATION -> new EventResourceReservation(this.messageType,this.body);
-                case RESOURCE_CREATION -> null;
+                case RESOURCE_CREATION -> new EventResourceCreation(this.messageType,this.body);
+                case CUSTOMER_CREATION -> new EventCustomerCreation(this.messageType,this.body);
                 case RESOURCE_RELEASE -> null;
                 case EVENT_DELETION -> null;
                 default -> null;

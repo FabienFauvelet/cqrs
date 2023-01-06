@@ -22,18 +22,19 @@ public class EventAcquirerService{
     {
         //System.out.println("Message reçu : " + new String(message, StandardCharsets.UTF_8));
         String jsonTxtMsg = new String(message,StandardCharsets.UTF_8);
-
-        try {
-            EventSwitcher switcher = new ObjectMapper().readValue(jsonTxtMsg, EventSwitcher.class);
+        try
+        {
+            EventSwitcher switcher = new ObjectMapper().findAndRegisterModules().readValue(jsonTxtMsg,EventSwitcher.class);
             TopicMessage genericMsg = switcher.toInsertObjectType();
 
             genericMsg.insertObject(agendaResource);
 
+            System.out.println("Réussite : " + genericMsg.getMessageType().toString());
 
-            System.out.println("Réussite  ! : " + genericMsg.getMessageType().toString());
-
-        } catch (JsonProcessingException e) {
-            System.out.print("GRAVE ERREUR : \n");
+        }
+        catch (JsonProcessingException e)
+        {
+            System.out.print("Erreur JSON : \n");
             e.printStackTrace();
         }
     }

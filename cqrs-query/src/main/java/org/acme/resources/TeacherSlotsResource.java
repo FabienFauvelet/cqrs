@@ -18,7 +18,7 @@ public class TeacherSlotsResource
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getCustomerAgenda(@QueryParam("id") String id, @QueryParam("start") String startDate, @QueryParam("end") String endDate)
+    public String getTeacherAgenda(@QueryParam("id") String id, @QueryParam("start") String startDate, @QueryParam("end") String endDate)
     {
 
         return null;

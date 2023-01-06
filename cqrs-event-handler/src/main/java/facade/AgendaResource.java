@@ -8,14 +8,15 @@ import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.result.InsertOneResult;
 import models.Customer;
 import models.Resource;
-import models.Teacher;
-import org.bson.BsonArray;
+import models.in.CustomerAddress;
 import org.bson.BsonString;
 import org.bson.Document;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -48,7 +49,7 @@ public class AgendaResource
     }
 
     //Creation d'un client
-    public void createCustomer(UUID customerId, String firstname, String lastname)
+    public void createCustomer(UUID customerId, String firstname, String lastname, Date birthdate, CustomerAddress address)
     {
         //Creation de la collection dédiée
         createCustomerCollection(customerId.toString());
@@ -58,6 +59,8 @@ public class AgendaResource
                 .append("_id",customerId.toString())
                 .append("firstname",firstname)
                 .append("lastname",lastname)
+                .append("birthdate",birthdate.toString())
+                .append("address",address.toString())
         );
     }
 
@@ -143,6 +146,13 @@ public class AgendaResource
                     .append("teacherLastName",teachDoc.getString("lastName")));
         }
 
+    }
+
+    public void createResource(UUID resourceId, String name)
+    {
+        getResourcesCollection().insertOne(new Document()
+                .append("_id",resourceId.toString())
+                .append("name", name));
     }
 
     public void addResourceToEvent(UUID eventId, UUID resourceId)

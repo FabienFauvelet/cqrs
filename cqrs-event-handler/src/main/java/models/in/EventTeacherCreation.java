@@ -26,7 +26,7 @@ public class EventTeacherCreation extends TopicMessage{
     public void insertObject(AgendaResource resource)
     {
         EventTeacherCreationBody myBody = (EventTeacherCreationBody) getBody();
-        resource.createTeacher(myBody.getTeacherId(), myBody.getLastname(), myBody.getFirstname());
+        resource.createTeacher(myBody.getId(), myBody.getLastName(), myBody.getFirstName());
     }
 
     @Getter
@@ -34,9 +34,8 @@ public class EventTeacherCreation extends TopicMessage{
     @JsonDeserialize
     static class EventTeacherCreationBody
     {
-        private UUID eventId;
-        private UUID teacherId;
-        private String firstname;
-        private String lastname;
+        private UUID id;
+        private String firstName;
+        private String lastName;
     }
 }
