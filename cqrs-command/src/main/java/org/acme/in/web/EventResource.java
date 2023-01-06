@@ -7,6 +7,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.acme.domain.exception.DomainRuleViolationException;
 import org.acme.domain.exception.InconsistentDomainDataException;
 import org.acme.domain.services.EventService;
 import org.acme.in.dto.event.CreateEventCommand;
@@ -32,7 +33,7 @@ public class EventResource {
 
     @DELETE
     @Path("/{eventId}")
-    public void deleteEvent(@PathParam("eventId") UUID eventId){
+    public void deleteEvent(@PathParam("eventId") UUID eventId) throws DomainRuleViolationException {
         eventService.deleteEvent(eventId);
     }
 

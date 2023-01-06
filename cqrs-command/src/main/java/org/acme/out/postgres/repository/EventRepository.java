@@ -2,7 +2,10 @@ package org.acme.out.postgres.repository;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -73,5 +76,13 @@ public class EventRepository implements PanacheRepository<EventEntity>{
         EventEntity eventEntity = find("id",eventId).firstResult();
         eventEntity.getParticipants().add(CustomerEntity.builder().id(customer.getId()).build());
         persistAndFlush(eventEntity);
+    }
+    @Transactional
+    public List<Event> getEnrolledFutureEventList(UUID customerId) {
+        List<EventEntity> enrolledFutureEventList = streamAll()
+                .filter(eventEntity -> eventEntity.getStartDateTime().isAfter(LocalDateTime.now()) && eventEntity.getParticipants().stream()
+                        .anyMatch(customerEntity -> customerEntity.getId().equals(customerId)))
+                .collect(Collectors.toList());
+        return eventMapper.toEventDomainList(enrolledFutureEventList);
     }
 }
