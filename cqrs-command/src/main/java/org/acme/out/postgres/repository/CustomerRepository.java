@@ -20,13 +20,18 @@ public class CustomerRepository implements PanacheRepository<CustomerEntity> {
         persistAndFlush(customerEntity);
         return customerMapper.toCustomer(customerEntity);
     }
-@Transactional
+    @Transactional
+    public Customer getCustomer(UUID customerId){
+        return customerMapper.toCustomer(find("id",customerId).firstResult());
+    }
+    @Transactional
     public boolean exists(UUID eventId){
         return find("id",eventId).count()>0;
     }
     @Transactional
     public void updateCustomer(Customer customer) {
         CustomerEntity customerEntity =  customerMapper.toCustomerEntity(customer);
+        customerEntity=getEntityManager().merge(customerEntity);
         persistAndFlush(customerEntity);
     }
     @Transactional

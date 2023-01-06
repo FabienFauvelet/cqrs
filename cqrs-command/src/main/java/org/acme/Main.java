@@ -89,7 +89,9 @@ public class Main {
                                 }).collect(Collectors.toList()))
                                 .build()
                 );
+
             }
+            customerService.deleteCustomer(customerIdList.get(0));
         }
         private int getRandom(int min, int max){
             return new Random().ints(min,max).findFirst().getAsInt();

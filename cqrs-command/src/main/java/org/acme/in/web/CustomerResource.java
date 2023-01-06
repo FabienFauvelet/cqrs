@@ -1,5 +1,6 @@
 package org.acme.in.web;
 
+import org.acme.domain.exception.InconsistentDomainDataException;
 import org.acme.domain.services.CustomerService;
 import org.acme.in.dto.customer.CreateCustomerCommand;
 import org.acme.in.dto.customer.UpdateCustomerCommand;
@@ -36,7 +37,7 @@ public class CustomerResource {
 
     @DELETE
     @Path("/{customerId}")
-    public void deleteCustomer(@PathParam("customerId") UUID customerId){
+    public void deleteCustomer(@PathParam("customerId") UUID customerId) throws InconsistentDomainDataException {
         customerService.deleteCustomer(customerId);
     }
 }

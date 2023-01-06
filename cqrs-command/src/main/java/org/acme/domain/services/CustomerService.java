@@ -1,34 +1,44 @@
 package org.acme.domain.services;
 
+import org.acme.domain.exception.InconsistentDomainDataException;
 import org.acme.domain.model.Customer;
+import org.acme.domain.model.Event;
 import org.acme.out.messages.Publisher;
 import org.acme.out.postgres.repository.CustomerRepository;
+import org.acme.out.postgres.repository.EventRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
 public class CustomerService {
-    @Inject
-    CustomerRepository customerRepository;
-    @Inject
-    Publisher publisher;
+    @Inject CustomerRepository customerRepository;
+    @Inject EventRepository eventRepository;
+    @Inject Publisher publisher;
     public Customer addCustomer(Customer customer) {
         customer = customerRepository.createCustomer(customer);
-        // TODO PUBLISH CREATE ADDRESS
         publisher.publishCustomerCreation(customer);
         return customer;
     }
 
     public void updateCustomer(Customer customer) {
         customerRepository.updateCustomer(customer);
-        // TODO PUBLISH ADDRESS MODIFICATION
         publisher.publishCustomerUpdate(customer);
     }
 
-    public void deleteCustomer(UUID customerId) {
-        customerRepository.delete(customerId);
-        // TODO PUBLISH CUSTOMER DELETION (real deletion ?)
+    public void deleteCustomer(UUID customerId) throws InconsistentDomainDataException {
+        if(!customerRepository.exists(customerId)){
+            throw new InconsistentDomainDataException("Le client n'existe pas");
+        }
+        Customer customer = customerRepository.getCustomer(customerId);
+        customer.setFirstName("DELETED");
+        customer.setLastName("DELETED");
+        customer.setAddress(null);
+        customerRepository.updateCustomer(customer);
+        publisher.publishCustomerUpdate(customer);
+        List<Event> enroledEventList = eventRepository.getEnrolledFutureEventList(customerId);
+        enroledEventList.forEach(event -> publisher.publishEnrolmentCancellation(event.getId(),customerId));
     }
 }

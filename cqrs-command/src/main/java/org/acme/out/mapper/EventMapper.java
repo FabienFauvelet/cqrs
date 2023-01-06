@@ -9,6 +9,8 @@ import org.acme.out.postgres.entity.ResourceEntity;
 import org.acme.out.postgres.entity.TeacherEntity;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 @Mapper(componentModel = "cdi")
 public interface EventMapper {
     Event toEventDomain(EventEntity eventEntity) throws InconsistentDomainDataException;
@@ -19,4 +21,6 @@ public interface EventMapper {
 
     Resource toResource(ResourceEntity resourceEntity);
     ResourceEntity toResourceEntity(Resource resource);
+
+    List<Event> toEventDomainList(List<EventEntity> enrolledFutureEventList);
 }

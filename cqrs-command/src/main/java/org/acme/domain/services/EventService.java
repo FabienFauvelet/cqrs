@@ -1,5 +1,6 @@
 package org.acme.domain.services;
 
+import org.acme.domain.exception.DomainRuleViolationException;
 import org.acme.domain.exception.InconsistentDomainDataException;
 import org.acme.domain.model.Customer;
 import org.acme.domain.model.Event;
@@ -13,6 +14,7 @@ import org.acme.out.postgres.repository.TeacherRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -64,7 +66,11 @@ public class EventService {
         }
     }
 
-    public void deleteEvent(UUID eventId) {
+    public void deleteEvent(UUID eventId) throws DomainRuleViolationException {
+        Event event = eventRepository.getEvent(eventId);
+        if(event.getStartDateTime().isBefore(LocalDateTime.now())){
+            throw new DomainRuleViolationException("Impossible de supprimer un cours dont la date de début est passée");
+        }
         eventRepository.delete(eventId);
         publisher.publishEventDeletion(eventId);
     }
