@@ -45,7 +45,6 @@ public class AgendaResource
                 .append("startDateTime",startDateTime)
                 .append("endDateTime",endDateTime)
                 .append("nbMaxParticipant",nbMaxParticipant));
-        System.out.println("Insertion : " + res);
     }
 
     //Creation d'un client

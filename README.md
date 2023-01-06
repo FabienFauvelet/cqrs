@@ -46,6 +46,10 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 You can then execute your native executable with: `./target/code-with-quarkus-1.0.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
+#Issues
+We encountered an issue concerning the message consumption in the event handler. This issue seems to be an ActiveMQ error : "The overflow buffer is full, which is due to the upstream sending too many items w.r.t. the downstream capacity and/or the downstream not consuming items fast enough"
+After restarting the services, the error is gone... 
+
 
 # Docker
 ## Active MQ
