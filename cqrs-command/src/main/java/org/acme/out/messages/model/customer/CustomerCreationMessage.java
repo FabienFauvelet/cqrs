@@ -29,7 +29,15 @@ public class CustomerCreationMessage extends Message {
         private String firstName;
         private String lastName;
         private LocalDate birthDate;
-        private UUID addressId;
+        private AddressMessage address;
+    }
+    @Builder
+    @Getter
+    public static class AddressMessage{
+        private UUID id;
+        private String street;
+        private String zipCode;
+        private String city;
     }
 
 }

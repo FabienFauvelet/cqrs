@@ -102,7 +102,14 @@ public class Publisher {
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
                 .birthDate(customer.getBirthDate());
-        Optional.ofNullable(customer.getAddress()).ifPresent(address -> builder.addressId(address.getId()));
+        Optional.ofNullable(customer.getAddress()).ifPresent(
+                address -> builder.address(
+                        CustomerCreationMessage.AddressMessage.builder()
+                                .id(address.getId())
+                                .street(address.getStreet())
+                                .zipCode(address.getZipCode())
+                                .city(address.getCity()).build())
+        );
         publish(new CustomerCreationMessage(builder.build()));
     }
 
