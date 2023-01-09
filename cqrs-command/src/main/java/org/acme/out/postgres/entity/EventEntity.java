@@ -33,4 +33,5 @@ public class EventEntity {
     @ManyToMany private List<ResourceEntity> reservedResources;
     @Column(name = "nb_max_participant") private int nbMaxParticipant;
     @ManyToMany private List<CustomerEntity> participants;
+    @Column(name = "type")  private String type;
 }

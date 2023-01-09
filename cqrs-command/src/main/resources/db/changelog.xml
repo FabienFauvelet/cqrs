@@ -44,5 +44,10 @@
             <column name="capacity" type="smallint"/>
         </addColumn>
     </changeSet>
+    <changeSet id="4" author="ffauvelet">
+        <addColumn tableName="event">
+            <column name="type" type="char(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
 

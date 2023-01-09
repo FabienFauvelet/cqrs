@@ -47,7 +47,14 @@ public class Main {
             List<UUID> resourceIdList = new ArrayList<>();
             List<UUID> teacherIdList = new ArrayList<>();
             List<UUID> customerIdList = new ArrayList<>();
-
+            List<String> typeList = new ArrayList<>();
+            typeList.add("Fitness");
+            typeList.add("Musculation");
+            typeList.add("Zumba");
+            typeList.add("Abdos/Fessiers");
+            typeList.add("Steps");
+            typeList.add("Cardio I");
+            typeList.add("Cardio II");
             Arrays.stream(JsonUtils.getValue("/init/01-init-data-resources.json", Resource[].class)).forEach(
                     resource -> {
                         resource = resourceService.addResource(resource);
@@ -87,6 +94,7 @@ public class Main {
                                     resource.setId(uuid);
                                     return resource;
                                 }).collect(Collectors.toList()))
+                                .type(typeList.get(new Random().nextInt(typeList.size())))
                                 .build()
                 );
 
