@@ -12,4 +12,5 @@ public class CreateEventCommand {
     private UUID teacherId;
     private ArrayList<UUID> reservedResources;
     private int nbMaxParticipant;
+    private String type;
 }
