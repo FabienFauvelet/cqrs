@@ -32,5 +32,7 @@ public class EventCreationMessage extends Message {
         private LocalDateTime startDateTime;
         private LocalDateTime endDateTime;
         private int nbMaxParticipant;
+        private String type;
+
     }
 }

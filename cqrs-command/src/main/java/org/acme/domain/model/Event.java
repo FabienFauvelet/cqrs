@@ -21,10 +21,11 @@ public class Event {
     private List<Resource> reservedResources;
     private int nbMaxParticipant;
     private List<Customer> participants;
+    private String type;
 
     @Builder(toBuilder = true)
 
-    public Event(UUID id, LocalDateTime startDateTime, LocalDateTime endDateTime, Teacher teacher, List<Resource> reservedResources, int nbMaxParticipant, List<Customer> participants) throws InconsistentDomainDataException {
+    public Event(UUID id, LocalDateTime startDateTime, LocalDateTime endDateTime, Teacher teacher, List<Resource> reservedResources, int nbMaxParticipant, List<Customer> participants, String type) throws InconsistentDomainDataException {
         this.id = id;
         this.setStartDateTime(startDateTime);
         this.setEndDateTime(endDateTime);
@@ -32,6 +33,7 @@ public class Event {
         this.reservedResources = reservedResources;
         this.nbMaxParticipant = nbMaxParticipant;
         this.participants = participants;
+        this.type=type;
     }
 
     public void setStartDateTime(LocalDateTime startDateTime) throws InconsistentDomainDataException {

@@ -45,6 +45,7 @@ public class Publisher {
                     .startDateTime(event.getStartDateTime())
                     .endDateTime(event.getEndDateTime())
                     .nbMaxParticipant(event.getNbMaxParticipant())
+                    .type(event.getType())
                     .build())
         );
     }
