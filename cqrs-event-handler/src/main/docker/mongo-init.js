@@ -7,7 +7,9 @@ db.createUser(
                 roles: [
                         { role: 'readWrite', db: 'admin'},
                         { role: 'readWrite', db: 'courses'},
-                        { role: 'readWrite', db: 'references'}
+                        { role: 'readWrite', db: 'references'},
+                        { role: 'readWrite', db: 'resources'},
+                        { role: 'readWrite', db: 'teachers'}
                         ]
         }
 );

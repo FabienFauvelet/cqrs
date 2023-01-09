@@ -41,6 +41,7 @@ public class EventSwitcher {
                 case RESOURCE_RESERVATION -> new EventResourceReservation(this.messageType,this.body);
                 case RESOURCE_CREATION -> new EventResourceCreation(this.messageType,this.body);
                 case CUSTOMER_CREATION -> new EventCustomerCreation(this.messageType,this.body);
+                case CUSTOMER_UPDATE -> new EventCustomerUpdate(this.messageType,this.body);
                 case RESOURCE_RELEASE -> new EventResourceRelease(this.messageType,this.body);
                 case EVENT_DELETION -> null;
                 default -> null;

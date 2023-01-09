@@ -1,7 +1,10 @@
 package models.in;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import facade.AgendaResource;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
@@ -23,16 +26,16 @@ public class EventCustomerEnrolment extends TopicMessage
     @Override
     public void insertObject(AgendaResource resource)
     {
-        UUID eventId = ((EventCustomerEnrolmentBody)getBody()).eventId;
-        UUID customerId = ((EventCustomerEnrolmentBody)getBody()).customerId;
-        resource.enrollCustomer(eventId,customerId);
+        EventCustomerEnrolmentBody myBody = (EventCustomerEnrolmentBody) super.getBody();
+        resource.enrollCustomer(myBody.getEventId(),myBody.getCustomerId());
     }
 
+    @Getter
+    @Setter
+    @JsonDeserialize
     static private class EventCustomerEnrolmentBody
     {
         private UUID eventId;
         private UUID customerId;
-
-
     }
 }
