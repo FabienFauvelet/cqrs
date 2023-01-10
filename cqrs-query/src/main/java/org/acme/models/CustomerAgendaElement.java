@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -15,6 +17,7 @@ import java.util.Date;
 @JsonSerialize
 public class CustomerAgendaElement
 {
+    private String id;
     private String name;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startDate;
@@ -23,54 +26,17 @@ public class CustomerAgendaElement
 
     public CustomerAgendaElement(){}
 
-    public CustomerAgendaElement(String name, LocalDateTime startDate, LocalDateTime endDate)
+    public CustomerAgendaElement(String id, String name, Date startDate, Date endDate)
     {
+        this.id = id;
         this.name = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startDate = convertToLocalDateViaInstant(startDate);
+        this.endDate = convertToLocalDateViaInstant(endDate);
     }
 
-    public CustomerAgendaElement(String name, Date startDate, Date endDate)
-    {
-        this.name = name;
-        this.startDate = LocalDateTime.parse(startDate.toString());
-        this.endDate = LocalDateTime.parse(endDate.toString());
-    }
-
-    public CustomerAgendaElement(String name, String startDate, String endDate)
-    {
-        this.name = name;
-        this.startDate = LocalDateTime.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
-        this.endDate = LocalDateTime.parse(endDate);
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    public LocalDateTime getStartDate()
-    {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDateTime startDate)
-    {
-        this.startDate = startDate;
-    }
-
-    public LocalDateTime getEndDate()
-    {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDateTime endDate)
-    {
-        this.endDate = endDate;
+    public LocalDateTime convertToLocalDateViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
     }
 }

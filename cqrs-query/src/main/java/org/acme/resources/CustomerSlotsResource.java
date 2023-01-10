@@ -3,7 +3,6 @@ package org.acme.resources;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.acme.models.CustomerAgendaElement;
-import org.acme.models.CustomerAgendaElementString;
 import org.acme.services.CustomerSlotsService;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
@@ -12,7 +11,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("/customers-slots")
@@ -29,7 +27,7 @@ public class CustomerSlotsResource
         System.out.println("Requete effectuée : ");
         System.out.println("id : " + id + ", start : " + startDate + ", end : " + endDate);
 
-        List<CustomerAgendaElementString> slotList = cuslotservice.getAgenda(id, startDate, endDate);
+        List<CustomerAgendaElement> slotList = cuslotservice.getAgenda(id, startDate, endDate);
 
         try
         {

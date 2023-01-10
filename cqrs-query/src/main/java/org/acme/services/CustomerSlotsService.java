@@ -5,7 +5,6 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.acme.models.CustomerAgendaElement;
-import org.acme.models.CustomerAgendaElementString;
 import org.bson.Document;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -21,29 +20,31 @@ public class CustomerSlotsService
     @Inject
     MongoClient mongoClient;
 
-    public List<CustomerAgendaElementString> getAgenda(String id, String start, String end)
+    public List<CustomerAgendaElement> getAgenda(String id, String start, String end)
     {
-        ArrayList<CustomerAgendaElementString> res = new ArrayList<>();
+        ArrayList<CustomerAgendaElement> res = new ArrayList<>();
 
         LocalDateTime startDate = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
-        LocalDateTime endDate = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+        LocalDateTime endDate = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
 
-        /*MongoCursor<Document> cursor = getCollection(id).find(
-                new Document().append("startDateTime",new Document("$gte",startDate))
-                        .append("endDateTime",new Document("$lt",endDate))).cursor();*/
+        Document query = new Document().append("startDateTime",new Document().append("$gte",startDate))
+                .append("endDateTime",new Document().append("$lt",endDate));
 
-        MongoCursor<Document> cursor = getCollection(id).find().cursor();
+        System.out.println(query.toString());
+
+        MongoCursor<Document> cursor = getCollection(id).find(query).cursor();
+
 
         while(cursor.hasNext())
         {
             Document myElement = cursor.next();
             res.add(
-                    new CustomerAgendaElementString(myElement.getString("type"),
-                            myElement.getDate("startDateTime").toString(),
-                            myElement.getDate("endDateTime").toString())
-            );
+                    new CustomerAgendaElement(myElement.getString("_id"),
+                            myElement.getString("type"),
+                            myElement.getDate("startDateTime"),
+                            myElement.getDate("endDateTime")
+            ));
         }
-
         return res;
     }
 
