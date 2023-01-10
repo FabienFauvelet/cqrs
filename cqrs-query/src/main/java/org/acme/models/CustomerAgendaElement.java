@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -27,6 +28,13 @@ public class CustomerAgendaElement
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public CustomerAgendaElement(String name, Date startDate, Date endDate)
+    {
+        this.name = name;
+        this.startDate = LocalDateTime.parse(startDate.toString());
+        this.endDate = LocalDateTime.parse(endDate.toString());
     }
 
     public CustomerAgendaElement(String name, String startDate, String endDate)

@@ -5,6 +5,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.acme.models.CustomerAgendaElement;
+import org.acme.models.CustomerAgendaElementString;
 import org.bson.Document;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,21 +21,26 @@ public class CustomerSlotsService
     @Inject
     MongoClient mongoClient;
 
-    public List<CustomerAgendaElement> getAgenda(String id, String start, String end)
+    public List<CustomerAgendaElementString> getAgenda(String id, String start, String end)
     {
-        ArrayList<CustomerAgendaElement> res = new ArrayList<>();
+        ArrayList<CustomerAgendaElementString> res = new ArrayList<>();
 
         LocalDateTime startDate = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
         LocalDateTime endDate = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
 
-        MongoCursor<Document> cursor = (MongoCursor<Document>) getCollection(id).find(new Document().append("$gte",start).append("$lt",end));
+        /*MongoCursor<Document> cursor = getCollection(id).find(
+                new Document().append("startDateTime",new Document("$gte",startDate))
+                        .append("endDateTime",new Document("$lt",endDate))).cursor();*/
+
+        MongoCursor<Document> cursor = getCollection(id).find().cursor();
+
         while(cursor.hasNext())
         {
             Document myElement = cursor.next();
             res.add(
-                    new CustomerAgendaElement(myElement.getString("name"),
-                            myElement.getString("startDate"),
-                            myElement.getString("endDate"))
+                    new CustomerAgendaElementString(myElement.getString("type"),
+                            myElement.getDate("startDateTime").toString(),
+                            myElement.getDate("endDateTime").toString())
             );
         }
 

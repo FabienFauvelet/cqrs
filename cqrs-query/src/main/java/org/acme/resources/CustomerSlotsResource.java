@@ -3,6 +3,7 @@ package org.acme.resources;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.acme.models.CustomerAgendaElement;
+import org.acme.models.CustomerAgendaElementString;
 import org.acme.services.CustomerSlotsService;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
@@ -28,11 +29,8 @@ public class CustomerSlotsResource
         System.out.println("Requete effectuée : ");
         System.out.println("id : " + id + ", start : " + startDate + ", end : " + endDate);
 
-        List<CustomerAgendaElement> slotList;// = cuslotservice.getAgenda(id, startDate, endDate);
+        List<CustomerAgendaElementString> slotList = cuslotservice.getAgenda(id, startDate, endDate);
 
-        slotList = new ArrayList<>();
-        slotList.add(new CustomerAgendaElement("Fitness","2022-11-10T10:00:00", "2022-11-10T11:00:00"));
-        slotList.add(new CustomerAgendaElement("Cardio","2022-11-11T10:00:00", "2022-11-11T11:00:00"));
         try
         {
             System.out.println(new ObjectMapper().findAndRegisterModules().writeValueAsString(slotList));
