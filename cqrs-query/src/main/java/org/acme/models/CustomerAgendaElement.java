@@ -23,15 +23,19 @@ public class CustomerAgendaElement
     private LocalDateTime startDate;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endDate;
+    private String teacherFirstname;
+    private String teacherLastname;
 
     public CustomerAgendaElement(){}
 
-    public CustomerAgendaElement(String id, String name, Date startDate, Date endDate)
+    public CustomerAgendaElement(String id, String name, Date startDate, Date endDate,  String teacherFirstname, String teacherLastname)
     {
         this.id = id;
         this.name = name;
         this.startDate = convertToLocalDateViaInstant(startDate);
         this.endDate = convertToLocalDateViaInstant(endDate);
+        this.teacherFirstname = teacherFirstname;
+        this.teacherLastname = teacherLastname;
     }
 
     public LocalDateTime convertToLocalDateViaInstant(Date dateToConvert) {

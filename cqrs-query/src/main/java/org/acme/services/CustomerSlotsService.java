@@ -40,7 +40,9 @@ public class CustomerSlotsService
                     new CustomerAgendaElement(myElement.getString("_id"),
                             myElement.getString("type"),
                             myElement.getDate("startDateTime"),
-                            myElement.getDate("endDateTime")
+                            myElement.getDate("endDateTime"),
+                            myElement.getString("teacherFirstname"),
+                            myElement.getString("teacherLastname")
             ));
         }
         return res;
