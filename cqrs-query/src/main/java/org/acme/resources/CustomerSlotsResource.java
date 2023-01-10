@@ -28,7 +28,6 @@ public class CustomerSlotsResource
 
         try
         {
-            System.out.println(new ObjectMapper().findAndRegisterModules().writeValueAsString(slotList));
             return new ObjectMapper().findAndRegisterModules().writeValueAsString(slotList);
         }
         catch(JsonProcessingException e)

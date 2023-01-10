@@ -78,7 +78,7 @@ public class AgendaResource
                 .append("_id",customerId.toString())
                 .append("firstname",firstname)
                 .append("lastname",lastname)
-                .append("birthdate",birthdate.toString())
+                .append("birthdate",birthdate)
                 .append("address",address.toString())
         );
     }
@@ -97,10 +97,9 @@ public class AgendaResource
     //Inscription d'un membre à un cours
     public void enrollCustomer(UUID eventId, UUID customerId)
     {
-        //TODO Test Find and update!
         //Ajout du client sur le cours
         Document d = getCoursesCollection().findOneAndUpdate(new Document().append("_id",eventId.toString())
-                ,new Document().append("$push", new Document("customers",customerId.toString()))
+                ,new Document().append("$push", new Document().append("customers",customerId.toString()))
                 ,new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER));
 
         //Ajout de l'élément d'agenda dans le calendrier du client
@@ -112,6 +111,16 @@ public class AgendaResource
                 .append("teacherFirstname",d.getString("teacherFirstname"))
                 .append("teacherLastname",d.getString("teacherLastname"))
         );
+
+        //Ajouts du nom prénom du client dans l'élément de calendrier du prof
+        if(!"".equals(d.getString("teacherId")) || !(d.getString("teacherId") == null)) //il y a un prof sur le cours
+        {
+            Document d_customer = getCustomerCollection().find(new Document().append("_id",customerId.toString())).cursor().next();
+            getTeacherCollectionById(d.getString("teacherId")).findOneAndUpdate(
+                    new Document().append("_id",eventId.toString())
+                    ,new Document().append("$push", new Document().append("customers",d_customer.getString("firstname") + " " + d_customer.getString("lastname")))
+            );
+        }
     }
 
     //Désinscription d'un membre à un cours
@@ -164,27 +173,39 @@ public class AgendaResource
     {
 
         Document teachDoc = getTeacherCollection().find(new Document().append("_id",teacherId.toString())).cursor().next();
-
         Document courseDoc = getCoursesCollection().findOneAndUpdate(new Document().append("_id",coursesId.toString()),
                 new Document("$set", new Document().append("teacherId",teacherId.toString())
                         .append("teacherFirstname",teachDoc.getString("firstname"))
                         .append("teacherLastname",teachDoc.getString("lastname"))));
 
 
-        for (Customer customer : courseDoc.getList("customers", Customer.class))
-        {
-            getCoursesCollectionByCustomerId(customer.getId().toString()).findOneAndUpdate(new Document().append("_id",coursesId.toString())
-                    ,new Document("teacherId", teacherId.toString())
-                    .append("teacherFirstname",teachDoc.getString("firstname"))
-                    .append("teacherLastname",teachDoc.getString("lastname")));
-        }
-
         getTeacherCollectionById(teacherId.toString()).insertOne(
-                new Document().append("type",courseDoc.getString("type"))
+                new Document()
+                        .append("_id",courseDoc.getString("_id"))
+                        .append("type",courseDoc.getString("type"))
                         .append("startDateTime",courseDoc.getDate("startDateTime"))
                         .append("endDateTime",courseDoc.getDate("endDateTime"))
                         .append("resources",courseDoc.getList("resources", String.class))
+                        .append("customers",new ArrayList<String>())
         );
+
+        for (Customer customer : courseDoc.getList("customers", Customer.class))
+        {
+            getCoursesCollectionByCustomerId(customer.getId().toString()).findOneAndUpdate(new Document().append("_id",coursesId.toString())
+                    ,new Document()
+                    .append("teacherFirstname",teachDoc.getString("firstname"))
+                    .append("teacherLastname",teachDoc.getString("lastname")));
+
+            Document d_customer = getCustomerCollection().find(new Document().append("_id",customer.getId().toString())).cursor().next();
+
+            getTeacherCollectionById(teacherId.toString()).findOneAndUpdate(
+                    new Document().append("_id", coursesId.toString()),
+                    new Document().append("$push",
+                            new Document()
+                                    .append("customers",d_customer.getString("firstname") +" "+ d_customer.getString("lastname")))
+
+            );
+        }
     }
 
     public void createResource(UUID resourceId, String name)

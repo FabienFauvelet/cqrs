@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,7 +22,8 @@ public class TeacherAgendaElement
     private LocalDateTime startDate;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endDate;
-    private ArrayList<String> resources;
+    private List<String> resources;
+    private List<String> customers;
 
     public TeacherAgendaElement(){}
 
@@ -32,13 +34,14 @@ public class TeacherAgendaElement
         this.endDate = endDate;
     }
 
-    public TeacherAgendaElement(String id, String name, Date startDate, Date endDate, ArrayList<String> resources)
+    public TeacherAgendaElement(String id, String name, Date startDate, Date endDate, List<String> resources, List<String> customers)
     {
         this.id = id;
         this.name = name;
         this.startDate = convertToLocalDateViaInstant(startDate);
         this.endDate = convertToLocalDateViaInstant(endDate);
         this.resources = resources;
+        this.customers = customers;
     }
 
     public LocalDateTime convertToLocalDateViaInstant(Date dateToConvert) {

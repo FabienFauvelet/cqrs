@@ -24,7 +24,7 @@ public class TeacherSlotsService
     {
         List<TeacherAgendaElement> res = new ArrayList<>();
         LocalDateTime startDate = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
-        LocalDateTime endDate = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+        LocalDateTime endDate = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
 
         Document query = new Document().append("startDateTime",new Document().append("$gte",startDate))
                 .append("endDateTime",new Document().append("$lt",endDate));
@@ -34,10 +34,14 @@ public class TeacherSlotsService
         while(cursor.hasNext())
         {
             Document elem = cursor.next();
-            //res.add(
-                    //new TeacherAgendaElement(elem.getString("_id"),elem.getString("type"))
-            //);
-
+            res.add(
+                    new TeacherAgendaElement(elem.getString("_id"),
+                            elem.getString("type"),
+                            elem.getDate("startDateTime"),
+                            elem.getDate("endDateTime"),
+                            elem.getList("resources",String.class),
+                            elem.getList("customers",String.class)
+                    ));
         }
         return res;
     }
