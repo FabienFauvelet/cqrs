@@ -24,9 +24,6 @@ public class CustomerSlotsResource
     @Produces(MediaType.APPLICATION_JSON)
     public String getCustomerAgenda(@QueryParam("id") String id, @QueryParam("start") String startDate, @QueryParam("end") String endDate)
     {
-        System.out.println("Requete effectuée : ");
-        System.out.println("id : " + id + ", start : " + startDate + ", end : " + endDate);
-
         List<CustomerAgendaElement> slotList = cuslotservice.getAgenda(id, startDate, endDate);
 
         try

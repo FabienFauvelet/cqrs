@@ -26,16 +26,19 @@ public class TeacherSlotsService
         LocalDateTime startDate = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
         LocalDateTime endDate = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
 
-        MongoCursor<Document> cursor = (MongoCursor<Document>) getCollection(id).find(new Document().append("$gte",start).append("$lt",end));
+        Document query = new Document().append("startDateTime",new Document().append("$gte",startDate))
+                .append("endDateTime",new Document().append("$lt",endDate));
+
+        MongoCursor<Document> cursor = getCollection(id).find(query).cursor();
 
         while(cursor.hasNext())
         {
             Document elem = cursor.next();
-            //res.add(new TeacherAgendaElement())
+            //res.add(
+                    //new TeacherAgendaElement(elem.getString("_id"),elem.getString("type"))
+            //);
 
         }
-
-
         return res;
     }
 

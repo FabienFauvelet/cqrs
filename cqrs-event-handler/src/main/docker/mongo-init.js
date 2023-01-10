@@ -19,5 +19,9 @@ db.createUser(
     user:'front',
     pwd:'front',
     roles:
-        [{role: 'read', db: 'courses'}]
+        [
+        {role: 'read', db: 'courses'},
+        {role: 'read', db: 'references'},
+        {role: 'read', db: 'teachers'}
+        ]
 });

@@ -30,8 +30,6 @@ public class CustomerSlotsService
         Document query = new Document().append("startDateTime",new Document().append("$gte",startDate))
                 .append("endDateTime",new Document().append("$lt",endDate));
 
-        System.out.println(query.toString());
-
         MongoCursor<Document> cursor = getCollection(id).find(query).cursor();
 
 
