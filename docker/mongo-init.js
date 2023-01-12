@@ -23,6 +23,7 @@ db.createUser(
         [
         {role: 'read', db: 'courses'},
         {role: 'read', db: 'references'},
-        {role: 'read', db: 'teachers'}
+        {role: 'read', db: 'teachers'},
+        {role: 'read', db: 'resources'}
         ]
 });

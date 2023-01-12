@@ -185,18 +185,18 @@ public class AgendaResource
                         .append("type",courseDoc.getString("type"))
                         .append("startDateTime",courseDoc.getDate("startDateTime"))
                         .append("endDateTime",courseDoc.getDate("endDateTime"))
-                        .append("resources",courseDoc.getList("resources", String.class))
+                        .append("resources",new ArrayList<String>())
                         .append("customers",new ArrayList<String>())
         );
 
-        for (Customer customer : courseDoc.getList("customers", Customer.class))
+        for (String customer : courseDoc.getList("customers", String.class))
         {
-            getCoursesCollectionByCustomerId(customer.getId().toString()).findOneAndUpdate(new Document().append("_id",coursesId.toString())
+            getCoursesCollectionByCustomerId(customer).findOneAndUpdate(new Document().append("_id",coursesId.toString())
                     ,new Document()
                     .append("teacherFirstname",teachDoc.getString("firstname"))
                     .append("teacherLastname",teachDoc.getString("lastname")));
 
-            Document d_customer = getCustomerCollection().find(new Document().append("_id",customer.getId().toString())).cursor().next();
+            Document d_customer = getCustomerCollection().find(new Document().append("_id",customer)).cursor().next();
 
             getTeacherCollectionById(teacherId.toString()).findOneAndUpdate(
                     new Document().append("_id", coursesId.toString()),
@@ -204,6 +204,28 @@ public class AgendaResource
                             new Document()
                                     .append("customers",d_customer.getString("firstname") +" "+ d_customer.getString("lastname")))
 
+            );
+        }
+
+        for(String resource : courseDoc.getList("resources",String.class)) //Ajout de toutes les resource dans le calendrier du prof
+        {
+            //TODO Insérer le nom du prof du agenda resources => Stocker l'id de la resource dans le référentiel du cours
+            //TODO Modifier la ligne 192 pour intérer sur des Strings, récupérer le nom de la resource via le referentiel
+            //TODO Et la ligne 182 pour insérer les resources dans calendrier prof
+            Document d_ref_resource = getResourcesCollection().find(new Document().append("_id",resource)).cursor().next();
+            getTeacherCollectionById(teacherId.toString()).findOneAndUpdate(
+                    new Document().append("_id", coursesId.toString()),
+                    new Document().append("$push",
+                            new Document()
+                                    .append("resources",d_ref_resource.getString("name")))
+
+            );
+
+            getResourceCollectionById(resource).findOneAndUpdate(
+                    new Document().append("_id",coursesId.toString()),
+                    new Document().append("$set",
+                            new Document()
+                                    .append("teacherFullname", teachDoc.getString("firstname") + " " + teachDoc.getString("lastname")))
             );
         }
     }
@@ -237,17 +259,31 @@ public class AgendaResource
 
         //On ajoute le nom de la resource dans le cours
         Document updatedCourse = getCoursesCollection().findOneAndUpdate(new Document().append("_id",eventId.toString()),
-                new Document().append("$push", new Document().append("resources",resource.getName())),
+                new Document().append("$push", new Document().append("resources",resource.getId().toString())),
                 new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
                 );
 
         //On ajoute un élément dans le calendrier de la resource
         getResourceCollectionById(resourceId.toString()).insertOne(
-                new Document().append("courseId", updatedCourse.getString("_id"))
+                new Document().append("_id", updatedCourse.getString("_id"))
                         .append("courseType",updatedCourse.getString("type"))
                         .append("startDateTime", updatedCourse.getDate("startDateTime"))
                         .append("endDateTime",updatedCourse.getDate("endDateTime"))
         );
 
+        if(!"".equals(updatedCourse.getString("teacherId")) && !(updatedCourse.getString("teacherId") == null)) //Prof assigné => Ajout du prof pour la resource et inversement
+        {
+            //Ajout du prof dans l'agenda de la resource
+            getResourceCollectionById(resource.getId().toString()).findOneAndUpdate(
+                    new Document().append("_id",eventId.toString()),
+                    new Document().append("$set",
+                            new Document().append("teacherFirstname",updatedCourse.getString("teacherFirstname"))
+                                    .append("teacherLastname",updatedCourse.getString("teacherLastname"))));
+            //Ajout de la resource dans le cours de l'agenda du prof
+
+            getTeacherCollectionById(updatedCourse.getString("teacherId")).findOneAndUpdate(
+                    new Document().append("_id",eventId.toString()),
+                            new Document().append("$push", new Document().append("resources", resource.getName())));
+        }
     }
 }
