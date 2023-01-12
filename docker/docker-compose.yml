@@ -22,7 +22,7 @@ services:
     ports:
       - 5433:5433
     volumes:
-      - ./volumes/postgres/db:/var/lib/postgresql
+      - ./volumes/postgres/dbQuery:/var/lib/postgresql
   mongo:
     container_name: mongo_container
     image: mongo:latest

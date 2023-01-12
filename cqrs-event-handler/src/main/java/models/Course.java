@@ -2,18 +2,19 @@ package models;
 
 import org.bson.json.JsonObject;
 
-public class CalendarElement {
+public class Course
+{
 
     private String action;
     private JsonObject body;
 
-    public CalendarElement(String action, JsonObject body)
+    public Course(String action, JsonObject body)
     {
         this.action = action;
         this.body = body;
     }
 
-    public CalendarElement(String action, String strJson)
+    public Course(String action, String strJson)
     {
         this.action = action;
         this.body = new JsonObject(strJson);

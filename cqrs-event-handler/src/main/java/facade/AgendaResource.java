@@ -3,11 +3,9 @@ package facade;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.result.InsertOneResult;
-import models.Customer;
 import models.Resource;
 import models.in.CustomerAddress;
 import org.bson.BsonString;
@@ -15,9 +13,7 @@ import org.bson.Document;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.NoSuchElementException;
@@ -64,7 +60,7 @@ public class AgendaResource
                 .append("customers",new ArrayList<String>())
                 .append("resources",new ArrayList<String>()));
 
-        System.out.println("Acknowledged : " + res.wasAcknowledged());
+        //System.out.println("Acknowledged : " + res.wasAcknowledged());
     }
 
     //Creation d'un client
@@ -140,13 +136,22 @@ public class AgendaResource
         try
         {
             Document courseDoc = getCoursesCollection().find(new Document().append("_id",courseId.toString())).cursor().next();
-            for (Customer c : courseDoc.getList("customers",Customer.class))
+
+            for (String c : courseDoc.getList("customers",String.class))
             {
                 //GetCollection of the actual customer and delete course in his view
-                getCoursesCollectionByCustomerId(c.getId().toString()).deleteOne(new Document().append("_id",courseId.toString()));
+                getCoursesCollectionByCustomerId(c).deleteOne(new Document().append("_id",courseId.toString()));
+            }
+
+            for (String resource : courseDoc.getList("resources",String.class))
+            {
+                getResourceCollectionById(resource).deleteOne(
+                        new Document().append("_id",courseId.toString())
+                );
             }
             //Course deletion
             getCoursesCollection().deleteOne(new Document().append("_id", courseId.toString()));
+            getTeacherCollectionById(courseDoc.getString("teacherId")).deleteOne(new Document().append("_id",courseId.toString()));
         }
         catch(NoSuchElementException e)
         {
@@ -209,9 +214,6 @@ public class AgendaResource
 
         for(String resource : courseDoc.getList("resources",String.class)) //Ajout de toutes les resource dans le calendrier du prof
         {
-            //TODO Insérer le nom du prof du agenda resources => Stocker l'id de la resource dans le référentiel du cours
-            //TODO Modifier la ligne 192 pour intérer sur des Strings, récupérer le nom de la resource via le referentiel
-            //TODO Et la ligne 182 pour insérer les resources dans calendrier prof
             Document d_ref_resource = getResourcesCollection().find(new Document().append("_id",resource)).cursor().next();
             getTeacherCollectionById(teacherId.toString()).findOneAndUpdate(
                     new Document().append("_id", coursesId.toString()),
@@ -243,7 +245,6 @@ public class AgendaResource
 
     public void addResourceToEvent(UUID eventId, UUID resourceId)
     {
-        //TODO Rechercher info resources dans refResources puis ajouter les info dans l'event
         MongoCursor<Document> cursor = getResourcesCollection().find(new Document().append("_id", new BsonString(resourceId.toString()))).cursor();
         Document doc;
 

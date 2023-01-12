@@ -29,7 +29,7 @@ public class EventAcquirerService{
 
             genericMsg.insertObject(agendaResource);
 
-            System.out.println("Réussite : " + genericMsg.getMessageType().toString());
+            //System.out.println("Réussite : " + genericMsg.getMessageType().toString());
 
         }
         catch (JsonProcessingException e)
