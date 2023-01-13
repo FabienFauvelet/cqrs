@@ -1,24 +1,27 @@
 package models;
 
-import org.bson.json.JsonObject;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import models.referentiel.entities.CourseEntity;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class Course
 {
+    private UUID id;
+    private String type;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
+    private int nbMaxParticipant;
 
-    private String action;
-    private JsonObject body;
-
-    public Course(String action, JsonObject body)
+    public CourseEntity toEntity()
     {
-        this.action = action;
-        this.body = body;
+        return new CourseEntity(id,type,startDateTime,endDateTime,nbMaxParticipant);
     }
-
-    public Course(String action, String strJson)
-    {
-        this.action = action;
-        this.body = new JsonObject(strJson);
-    }
-
-
 }

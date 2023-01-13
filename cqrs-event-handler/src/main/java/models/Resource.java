@@ -1,5 +1,7 @@
 package models;
 
+import models.referentiel.entities.ResourceEntity;
+
 import java.util.UUID;
 
 public class Resource
@@ -11,6 +13,11 @@ public class Resource
     {
         this.id = id;
         this.name = name;
+    }
+
+    public ResourceEntity toEntity()
+    {
+        return new ResourceEntity(id,name);
     }
 
     public Resource(){}

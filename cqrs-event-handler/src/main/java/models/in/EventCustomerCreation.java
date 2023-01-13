@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import facade.AgendaResource;
 import lombok.Getter;
 import lombok.Setter;
+import models.Customer;
+import models.referentiel.repositories.CustomerRepository;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -31,6 +33,12 @@ public class EventCustomerCreation extends TopicMessage
     {
         EventCustomerCreationBody body = (EventCustomerCreationBody) getBody();
         resource.createCustomer(body.getId(),body.getFirstName(),body.getLastName(),body.getBirthDate(),body.getAddress());
+    }
+
+    public Customer toCustomer()
+    {
+        EventCustomerCreationBody body = (EventCustomerCreationBody) getBody();
+        return new Customer(body.getId(),body.getFirstName(),body.getLastName(),body.getBirthDate(),body.getAddress());
     }
 
     @Getter
