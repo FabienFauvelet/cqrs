@@ -75,8 +75,8 @@ public class AgendaResource
                 .append("resources",new ArrayList<String>()));
 
         //System.out.println("Acknowledged : " + res.wasAcknowledged());
-        courseRepository.createCourse(
-                new Course(id,type,startDateTime,endDateTime,nbMaxParticipant));
+        //courseRepository.createCourse(
+          //      new Course(id,type,startDateTime,endDateTime,nbMaxParticipant));
     }
 
     //Creation d'un client
@@ -94,7 +94,7 @@ public class AgendaResource
                 .append("address",address.toString())
         );
 
-        customerRepository.createCustomer(new CustomerEntity(customerId,firstname,lastname,birthdate,address.toString()));
+        //customerRepository.createCustomer(new CustomerEntity(customerId,firstname,lastname,birthdate,address.toString()));
     }
 
     public void updateCustomer(UUID customerId, String firstname, String lastname, Date birthdate, CustomerAddress address)
@@ -176,7 +176,7 @@ public class AgendaResource
             System.out.println("L'élément à supprimer n'a pas été trouvé");
         }
 
-        courseRepository.deleteCourse(courseId);
+        //courseRepository.deleteCourse(courseId);
     }
 
     public void updateEvent(UUID eventId)
@@ -192,7 +192,7 @@ public class AgendaResource
                 .append("firstname",firstname)
         );
         createTeacherCollection(id.toString());
-        teacherRepository.createTeacher(new TeacherEntity(id,firstname,lastname));
+        //teacherRepository.createTeacher(new TeacherEntity(id,firstname,lastname));
     }
 
     public void assignTeacher(UUID coursesId, UUID teacherId)
@@ -262,7 +262,7 @@ public class AgendaResource
 
         //Creation du calendrier de la resource
         createResourceCollection(resourceId.toString());
-        resourceRepository.createResource(new ResourceEntity(resourceId,name));
+        //resourceRepository.createResource(new ResourceEntity(resourceId,name));
     }
 
     public void addResourceToEvent(UUID eventId, UUID resourceId)
