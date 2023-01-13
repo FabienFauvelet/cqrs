@@ -1,6 +1,7 @@
 package models.in;
 import com.aayushatharva.brotli4j.common.annotations.Local;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import static models.in.EventType.*;
 @Getter
 @Setter
 @JsonDeserialize
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EventSwitcher {
 
     private EventType messageType;
