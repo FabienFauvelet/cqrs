@@ -16,6 +16,7 @@ import org.acme.utils.JsonUtils;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -43,7 +44,6 @@ public class Main {
             return 0;
         }
         private void initDevEnv() throws IOException, ClassNotFoundException, InconsistentDomainDataException {
-            System.out.println("-------------> TEST <-------------");
             List<UUID> resourceIdList = new ArrayList<>();
             List<UUID> teacherIdList = new ArrayList<>();
             List<UUID> customerIdList = new ArrayList<>();
@@ -74,7 +74,7 @@ public class Main {
                     }
             );
             for (int i = 0; i < 30; i++) {
-                LocalDateTime startDateTime = getStartDateTime();
+                LocalDateTime startDateTime = getStartDateTimeOutOfWE();
                 Collections.shuffle(resourceIdList);
                 Collections.shuffle(customerIdList);
                 Teacher teacher = new Teacher();
@@ -83,7 +83,7 @@ public class Main {
                         Event.builder()
                                 .startDateTime(startDateTime)
                                 .endDateTime(getEndDateTime(startDateTime))
-                                .participants(customerIdList.subList(0,getRandom(1,5)).stream().map(uuid -> {
+                                .participants(customerIdList.subList(0,getRandom(5,10)).stream().map(uuid -> {
                                     Customer customer = new Customer();
                                     customer.setId(uuid);
                                     return customer;
@@ -104,13 +104,19 @@ public class Main {
         private int getRandom(int min, int max){
             return new Random().ints(min,max).findFirst().getAsInt();
         }
-        private LocalDateTime getStartDateTime(){
+        private LocalDateTime getStartDateTimeOutOfWE(){
             boolean sign = new Random().nextBoolean();
             LocalDateTime localDateTime = LocalDateTime.now().withHour(getRandom(8,18)).withMinute(0).withSecond(0);
             if(sign){
                 localDateTime=localDateTime.plusDays(getRandom(0,7));
+
             }else{
                 localDateTime=localDateTime.minusDays(getRandom(0,7));
+            }
+            if(localDateTime.getDayOfWeek().equals(DayOfWeek.SATURDAY)){
+                localDateTime=localDateTime.minusDays(1);
+            } else if(localDateTime.getDayOfWeek().equals(DayOfWeek.SUNDAY)){
+                localDateTime=localDateTime.plusDays(1);
             }
             return localDateTime;
         }

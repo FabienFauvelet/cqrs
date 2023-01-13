@@ -4,7 +4,6 @@ import org.acme.domain.services.ResourceService;
 import org.acme.in.dto.resource.CreateResourceCommand;
 import org.acme.in.dto.resource.UpdateResourceCommand;
 import org.acme.in.mapper.ResourceInMapper;
-import org.acme.out.messages.model.resource.ResourceCreationMessage;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;

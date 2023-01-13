@@ -55,7 +55,32 @@ After restarting the services, the error is gone...
 ## Active MQ
 > URL de la console (via reverse proxy nginx) http://localhost:8090/console/auth/login
 ## Commandes annexes
-```shell script
+```shell-script
 sudo docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
 sudo docker run -d --hostname my-rabbit --name some-rabbit-management -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password -p 8081:15672 -p 5672:5672 rabbitmq:3.11.3-management
+```
+# Properties 
+## AMQ ANYCAST
+![Schéma d'architectue AMQ ANYCAST](AMQ-anycast.png)
+```properties
+mp.messaging.outgoing.main-out-channel.connector=smallrye-amqp
+mp.messaging.outgoing.main-out-channel.address=main-address
+```
+```properties
+mp.messaging.incoming.main-in-channel.connector=smallrye-amqp
+mp.messaging.incoming.main-in-channel.address=main-address
+```
+## AMQ MULTICAST
+![Schéma d'architectue AMQ MULTICAST](AMQ-multicast.png)
+```properties
+mp.messaging.outgoing.main-out-channel.connector=smallrye-amqp
+mp.messaging.outgoing.main-out-channel.address=main-address
+```
+```properties
+mp.messaging.incoming.main-in-channel.connector=smallrye-amqp
+mp.messaging.incoming.main-in-channel.address=main-address::test-in
+```
+```properties
+mp.messaging.incoming.main-in-channel.connector=smallrye-amqp
+mp.messaging.incoming.main-in-channel.address=main-address::handler
 ```
