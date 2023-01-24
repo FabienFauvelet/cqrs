@@ -1,6 +1,7 @@
 package service;
 
 import facade.AgendaResource;
+import io.smallrye.reactive.messaging.annotations.Blocking;
 import io.vertx.core.json.JsonObject;
 import models.in.EventSwitcher;
 import models.in.TopicMessage;
@@ -16,6 +17,7 @@ public class EventAcquirerService{
     AgendaResource agendaResource;
 
     @Incoming("main-in-channel")
+    @Blocking
     public void process(JsonObject message)
     {
             System.out.println(message.toString());
