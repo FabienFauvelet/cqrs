@@ -9,8 +9,8 @@ import java.util.UUID;
 
 
 @Getter
-public class ResourceUpdateCommonMessage extends CommonMessage {
-    public ResourceUpdateCommonMessage(ResourceUpdateMessageBody body) {
+public class ResourceUpdateMessage extends CommonMessage {
+    public ResourceUpdateMessage(ResourceUpdateMessageBody body) {
         super.setBody(body);
     }
 

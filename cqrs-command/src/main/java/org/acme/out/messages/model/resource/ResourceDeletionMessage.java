@@ -9,8 +9,8 @@ import java.util.UUID;
 
 
 @Getter
-public class ResourceDeletionCommonMessage extends CommonMessage {
-    public ResourceDeletionCommonMessage(ResourceDeletionMessageBody body) {
+public class ResourceDeletionMessage extends CommonMessage {
+    public ResourceDeletionMessage(ResourceDeletionMessageBody body) {
         super.setBody(body);
     }
 

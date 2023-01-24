@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
-public class EventCreationCommonMessage extends CommonMessage {
+public class EventCreationMessage extends CommonMessage {
 
 
-    public EventCreationCommonMessage(EventCreationMessageBody body) {
+    public EventCreationMessage(EventCreationMessageBody body) {
         super.setBody(body);
     }
 

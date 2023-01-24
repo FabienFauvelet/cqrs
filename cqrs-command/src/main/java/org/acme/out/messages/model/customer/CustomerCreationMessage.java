@@ -9,8 +9,8 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
-public class CustomerCreationCommonMessage extends CommonMessage {
-    public CustomerCreationCommonMessage(CustomerCreationCommonMessage.CustomerCreationMessageBody body) {
+public class CustomerCreationMessage extends CommonMessage {
+    public CustomerCreationMessage(CustomerCreationMessage.CustomerCreationMessageBody body) {
         super.setBody(body);
     }
 
@@ -18,8 +18,8 @@ public class CustomerCreationCommonMessage extends CommonMessage {
     public MessageType getMessageType() {
         return MessageType.CUSTOMER_CREATION;
     }
-    public static CustomerCreationCommonMessage.CustomerCreationMessageBody.CustomerCreationMessageBodyBuilder getBodyBuilder(){
-        return CustomerCreationCommonMessage.CustomerCreationMessageBody.builder();
+    public static CustomerCreationMessage.CustomerCreationMessageBody.CustomerCreationMessageBodyBuilder getBodyBuilder(){
+        return CustomerCreationMessage.CustomerCreationMessageBody.builder();
     }
 
     @Builder

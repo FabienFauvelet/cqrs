@@ -10,8 +10,8 @@ import java.util.UUID;
 
 
 @Getter
-public class ResourceReservationCommonMessage extends CommonMessage {
-    public ResourceReservationCommonMessage(ResourceReservationMessageBody body) {
+public class ResourceReservationMessage extends CommonMessage {
+    public ResourceReservationMessage(ResourceReservationMessageBody body) {
         super.setBody(body);
     }
 

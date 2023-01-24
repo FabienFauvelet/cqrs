@@ -8,8 +8,8 @@ import org.acme.out.messages.model.MessageType;
 
 import java.util.UUID;
 
-public class EventDeletionCommonMessage extends CommonMessage {
-    public EventDeletionCommonMessage(EventDeletionMessageBody body) {
+public class EventDeletionMessage extends CommonMessage {
+    public EventDeletionMessage(EventDeletionMessageBody body) {
         super.setBody(body);
     }
     @Override

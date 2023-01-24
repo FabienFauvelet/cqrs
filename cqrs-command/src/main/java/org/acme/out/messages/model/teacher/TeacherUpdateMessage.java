@@ -9,8 +9,8 @@ import java.util.UUID;
 
 
 @Getter
-public class TeacherUpdateCommonMessage extends CommonMessage {
-    public TeacherUpdateCommonMessage(TeacherUpdateMessageBody body) {
+public class TeacherUpdateMessage extends CommonMessage {
+    public TeacherUpdateMessage(TeacherUpdateMessageBody body) {
         super.setBody(body);
     }
 

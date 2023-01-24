@@ -10,8 +10,8 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
-public class CustomerUpdateCommonMessage extends CommonMessage {
-    public CustomerUpdateCommonMessage(CustomerUpdateMessageBody body) {
+public class CustomerUpdateMessage extends CommonMessage {
+    public CustomerUpdateMessage(CustomerUpdateMessageBody body) {
         super.setBody(body);
     }
 

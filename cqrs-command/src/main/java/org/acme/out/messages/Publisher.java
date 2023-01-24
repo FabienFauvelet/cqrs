@@ -4,19 +4,19 @@ import io.smallrye.reactive.messaging.annotations.Broadcast;
 import io.vertx.core.json.JsonObject;
 import org.acme.domain.model.*;
 import org.acme.out.messages.model.*;
-import org.acme.out.messages.model.customer.CustomerCreationCommonMessage;
-import org.acme.out.messages.model.customer.CustomerCreationCommonMessage.CustomerCreationMessageBody.CustomerCreationMessageBodyBuilder;
-import org.acme.out.messages.model.customer.CustomerUpdateCommonMessage;
-import org.acme.out.messages.model.customer.CustomerUpdateCommonMessage.CustomerUpdateMessageBody.CustomerUpdateMessageBodyBuilder;
-import org.acme.out.messages.model.enrolment.CustomerEnrolmentCancellationCommonMessage;
-import org.acme.out.messages.model.enrolment.CustomerEnrolmentCommonMessage;
-import org.acme.out.messages.model.event.EventCreationCommonMessage;
-import org.acme.out.messages.model.event.EventDeletionCommonMessage;
+import org.acme.out.messages.model.customer.CustomerCreationMessage;
+import org.acme.out.messages.model.customer.CustomerCreationMessage.CustomerCreationMessageBody.CustomerCreationMessageBodyBuilder;
+import org.acme.out.messages.model.customer.CustomerUpdateMessage;
+import org.acme.out.messages.model.customer.CustomerUpdateMessage.CustomerUpdateMessageBody.CustomerUpdateMessageBodyBuilder;
+import org.acme.out.messages.model.enrolment.CustomerEnrolmentCancellationMessage;
+import org.acme.out.messages.model.enrolment.CustomerEnrolmentMessage;
+import org.acme.out.messages.model.event.EventCreationMessage;
+import org.acme.out.messages.model.event.EventDeletionMessage;
 import org.acme.out.messages.model.resource.*;
 import org.acme.out.messages.model.shared.Address;
-import org.acme.out.messages.model.teacher.TeacherAssignationCommonMessage;
-import org.acme.out.messages.model.teacher.TeacherCreationCommonMessage;
-import org.acme.out.messages.model.teacher.TeacherUpdateCommonMessage;
+import org.acme.out.messages.model.teacher.TeacherAssignationMessage;
+import org.acme.out.messages.model.teacher.TeacherCreationMessage;
+import org.acme.out.messages.model.teacher.TeacherUpdateMessage;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
@@ -41,8 +41,8 @@ public class Publisher {
     }
 
     public void publish(Event event){
-        publish(new EventCreationCommonMessage(
-                EventCreationCommonMessage.getBodyBuilder()
+        publish(new EventCreationMessage(
+                EventCreationMessage.getBodyBuilder()
                     .id(event.getId())
                     .startDateTime(event.getStartDateTime())
                     .endDateTime(event.getEndDateTime())
@@ -52,24 +52,24 @@ public class Publisher {
         );
     }
     public void publishTeacherAssignation(UUID eventId, Teacher teacher) {
-        publish(new TeacherAssignationCommonMessage(
-                TeacherAssignationCommonMessage.getBodyBuilder()
+        publish(new TeacherAssignationMessage(
+                TeacherAssignationMessage.getBodyBuilder()
                         .teacherId(teacher.getId())
                         .eventId(eventId).build())
         );
     }
 
     public void publishResourceReservation(UUID eventId, Resource resource) {
-        publish(new ResourceReservationCommonMessage(
-                ResourceReservationCommonMessage.getBodyBuilder()
+        publish(new ResourceReservationMessage(
+                ResourceReservationMessage.getBodyBuilder()
                     .resourceId(resource.getId())
                     .eventId(eventId)
                     .build())
         );
     }
     public void publishResourceRelease(UUID eventId, Resource resource) {
-        publish(new ResourceReleaseCommonMessage(
-                ResourceReleaseCommonMessage.getBodyBuilder()
+        publish(new ResourceReleaseMessage(
+                ResourceReleaseMessage.getBodyBuilder()
                         .resourceId(resource.getId())
                         .eventId(eventId)
                         .build())
@@ -77,12 +77,12 @@ public class Publisher {
     }
 
     public void publishEventDeletion(UUID eventId) {
-        publish(new EventDeletionCommonMessage(EventDeletionCommonMessage.getBodyBuilder().id(eventId).build()));
+        publish(new EventDeletionMessage(EventDeletionMessage.getBodyBuilder().id(eventId).build()));
     }
 
     public void publishNewEnrolment(UUID eventId, UUID customerId) {
-        publish(new CustomerEnrolmentCommonMessage(
-                CustomerEnrolmentCommonMessage.getBodyBuilder()
+        publish(new CustomerEnrolmentMessage(
+                CustomerEnrolmentMessage.getBodyBuilder()
                         .eventId(eventId)
                         .customerId(customerId)
                         .build())
@@ -90,8 +90,8 @@ public class Publisher {
     }
 
     public void publishEnrolmentCancellation(UUID eventId, UUID customerId) {
-        publish(new CustomerEnrolmentCancellationCommonMessage(
-                CustomerEnrolmentCancellationCommonMessage.getBodyBuilder()
+        publish(new CustomerEnrolmentCancellationMessage(
+                CustomerEnrolmentCancellationMessage.getBodyBuilder()
                         .eventId(eventId)
                         .customerId(customerId)
                         .build())
@@ -100,34 +100,34 @@ public class Publisher {
 
 
     public void publishCustomerCreation(Customer customer) {
-        CustomerCreationMessageBodyBuilder builder = CustomerCreationCommonMessage.getBodyBuilder()
+        CustomerCreationMessageBodyBuilder builder = CustomerCreationMessage.getBodyBuilder()
                 .id(customer.getId())
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
                 .birthDate(customer.getBirthDate());
         Optional.ofNullable(customer.getAddress()).ifPresent(
                 address -> builder.address(
-                        CustomerCreationCommonMessage.AddressMessage.builder()
+                        CustomerCreationMessage.AddressMessage.builder()
                                 .id(address.getId())
                                 .street(address.getStreet())
                                 .zipCode(address.getZipCode())
                                 .city(address.getCity()).build())
         );
-        publish(new CustomerCreationCommonMessage(builder.build()));
+        publish(new CustomerCreationMessage(builder.build()));
     }
 
     public void publishCustomerUpdate(Customer customer) {
-        CustomerUpdateMessageBodyBuilder builder = CustomerUpdateCommonMessage.getBodyBuilder()
+        CustomerUpdateMessageBodyBuilder builder = CustomerUpdateMessage.getBodyBuilder()
                 .id(customer.getId())
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
                 .birthDate(customer.getBirthDate());
         Optional.ofNullable(customer.getAddress()).ifPresent(address -> builder.address(Address.builder().id(address.getId()).build()));
-        publish(new CustomerUpdateCommonMessage(builder.build()));
+        publish(new CustomerUpdateMessage(builder.build()));
     }
 
     public void publishTeacherCreation(Teacher teacher) {
-        publish(new TeacherCreationCommonMessage(TeacherCreationCommonMessage.getBodyBuilder()
+        publish(new TeacherCreationMessage(TeacherCreationMessage.getBodyBuilder()
                 .id(teacher.getId())
                 .firstName(teacher.getFirstName())
                 .lastName(teacher.getLastName())
@@ -136,7 +136,7 @@ public class Publisher {
     }
 
     public void publishTeacherUpdate(Teacher teacher) {
-        publish(new TeacherUpdateCommonMessage(TeacherUpdateCommonMessage.getBodyBuilder()
+        publish(new TeacherUpdateMessage(TeacherUpdateMessage.getBodyBuilder()
                 .id(teacher.getId())
                 .firstName(teacher.getFirstName())
                 .lastName(teacher.getLastName())
@@ -145,14 +145,14 @@ public class Publisher {
     }
 
     public void publishTeacherDeletion(UUID teacherId) {
-        publish(new TeacherUpdateCommonMessage(TeacherUpdateCommonMessage.getBodyBuilder()
+        publish(new TeacherUpdateMessage(TeacherUpdateMessage.getBodyBuilder()
                 .id(teacherId)
                 .build())
         );
     }
 
     public void publishResourceCreation(Resource resource) {
-        publish(new ResourceCreationCommonMessage(ResourceCreationCommonMessage.getBodyBuilder()
+        publish(new ResourceCreationMessage(ResourceCreationMessage.getBodyBuilder()
                 .id(resource.getId())
                 .name(resource.getName())
                 .build())
@@ -160,7 +160,7 @@ public class Publisher {
     }
 
     public void publishResourceUpdate(Resource resource) {
-        publish(new ResourceUpdateCommonMessage(ResourceUpdateCommonMessage.getBodyBuilder()
+        publish(new ResourceUpdateMessage(ResourceUpdateMessage.getBodyBuilder()
                 .id(resource.getId())
                 .name(resource.getName())
                 .build())
@@ -168,7 +168,7 @@ public class Publisher {
     }
 
     public void publishResourceDeletion(UUID resourceId) {
-        publish(new ResourceDeletionCommonMessage(ResourceDeletionCommonMessage.getBodyBuilder()
+        publish(new ResourceDeletionMessage(ResourceDeletionMessage.getBodyBuilder()
                 .id(resourceId)
                 .build())
         );
