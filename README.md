@@ -1,10 +1,19 @@
-# code-with-quarkus Project
+# CQRS POC Project
+## What's the purpose ?
+The purpose of this project is to demonstrate how CQRS (Command Query Responsibility Segregation Principle).
+The case study here is the management of a gym.
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+To work, this project use :
+- **Quarkus**, the Supersonic Subatomic Java Framework ;
+- **Active MQ**, an open source message broker ;
+- **PostgreSQL**, an open source relational database ;
+- **MongoDB**, a documents oriented database.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+For practical reasons, an [**NGINX**](#active-mq) (as Reverse Proxy) may be mandatory to access Active MQ GUI if used through containers (CORS constraints).
 
-## Running the application in dev mode
+
+## Quarkus
+### Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
 ```shell script
@@ -13,7 +22,7 @@ You can run your application in dev mode that enables live coding using:
 
 > **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
 
-## Packaging and running the application
+### Packaging and running the application
 
 The application can be packaged using:
 ```shell script
@@ -31,7 +40,7 @@ If you want to build an _über-jar_, execute the following command:
 
 The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
 
-## Creating a native executable
+### Creating a native executable
 
 You can create a native executable using: 
 ```shell script
@@ -48,12 +57,11 @@ You can then execute your native executable with: `./target/code-with-quarkus-1.
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
 #Issues
 We encountered an issue concerning the message consumption in the event handler. This issue seems to be an ActiveMQ error : "The overflow buffer is full, which is due to the upstream sending too many items w.r.t. the downstream capacity and/or the downstream not consuming items fast enough"
-After restarting the services, the error is gone... 
-
+After restarting the services, the error is gone...
 
 # Docker
-## Active MQ
-> URL de la console (via reverse proxy nginx) http://localhost:8090/console/auth/login
+## Active MQ 
+> Console URL (through nginx reverse proxy ) http://localhost:8090/console/auth/login
 ## Commandes annexes
 ```shell-script
 sudo docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
