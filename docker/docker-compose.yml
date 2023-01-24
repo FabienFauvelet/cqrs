@@ -43,6 +43,7 @@ services:
       ES_JAVA_OPTS: -Xms512m -Xmx512m
       discovery.type: single-node
   artemis:
+    container_name: artemis
     image: quay.io/artemiscloud/activemq-artemis-broker:0.1.2
     ports:
       - "8161:8161"
