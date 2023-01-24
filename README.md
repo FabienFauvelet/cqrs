@@ -1,6 +1,6 @@
 # CQRS POC Project
 ## What's the purpose ?
-The purpose of this project is to demonstrate how CQRS (Command Query Responsibility Segregation Principle).
+The purpose of this project is to demonstrate how **CQRS** (**C**ommand **Q**uery **R**esponsibility **S**egregation).
 The case study here is the management of a gym.
 
 To work, this project use :
@@ -11,8 +11,10 @@ To work, this project use :
 
 For practical reasons, an [**NGINX**](#active-mq) (as Reverse Proxy) may be mandatory to access Active MQ GUI if used through containers (CORS constraints).
 
-
-## Quarkus
+## Architecture
+:construction: _**TODO**_ :construction:
+# How to
+## Build/Use Quarkus 
 ### Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
@@ -42,12 +44,12 @@ The application, packaged as an _über-jar_, is now runnable using `java -jar ta
 
 ### Creating a native executable
 
-You can create a native executable using: 
+You can create a native executable using:
 ```shell script
 ./mvnw package -Pnative
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
+Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
 ```shell script
 ./mvnw package -Pnative -Dquarkus.native.container-build=true
 ```
@@ -58,17 +60,12 @@ If you want to learn more about building native executables, please consult http
 #Issues
 We encountered an issue concerning the message consumption in the event handler. This issue seems to be an ActiveMQ error : "The overflow buffer is full, which is due to the upstream sending too many items w.r.t. the downstream capacity and/or the downstream not consuming items fast enough"
 After restarting the services, the error is gone...
-
-# Docker
 ## Active MQ 
-> Console URL (through nginx reverse proxy ) http://localhost:8090/console/auth/login
-## Commandes annexes
-```shell-script
-sudo docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
-sudo docker run -d --hostname my-rabbit --name some-rabbit-management -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password -p 8081:15672 -p 5672:5672 rabbitmq:3.11.3-management
-```
-# Properties 
-## AMQ ANYCAST
+> Console URL (through nginx reverse proxy ) at http://localhost:8090/console/auth/login (see [Docker compose file](./docker/docker-compose.yml))
+
+### Properties
+Here is the description of how Active MQ works with AMQP protocol when the need is anycasting or multicasting messages.
+#### AMQ ANYCAST
 ![Schéma d'architectue AMQ ANYCAST](AMQ-anycast.png)
 ```properties
 mp.messaging.outgoing.main-out-channel.connector=smallrye-amqp
@@ -78,7 +75,8 @@ mp.messaging.outgoing.main-out-channel.address=main-address
 mp.messaging.incoming.main-in-channel.connector=smallrye-amqp
 mp.messaging.incoming.main-in-channel.address=main-address
 ```
-## AMQ MULTICAST
+
+#### AMQ MULTICAST
 ![Schéma d'architectue AMQ MULTICAST](AMQ-multicast.png)
 ```properties
 mp.messaging.outgoing.main-out-channel.connector=smallrye-amqp
