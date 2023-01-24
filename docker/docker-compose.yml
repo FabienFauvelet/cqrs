@@ -20,7 +20,7 @@ services:
       POSTGRES_PASSWORD: 5UP3r53Cr37
       PGDATA: /data/postgres
     ports:
-      - 5433:5433
+      - 5433:5432
     volumes:
       - ./volumes/postgres/dbQuery:/var/lib/postgresql
   mongo:

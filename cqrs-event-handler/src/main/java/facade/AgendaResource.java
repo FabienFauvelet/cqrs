@@ -6,8 +6,18 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.result.InsertOneResult;
+import models.Course;
+import models.Customer;
 import models.Resource;
+import models.Teacher;
 import models.in.CustomerAddress;
+import models.referentiel.entities.CustomerEntity;
+import models.referentiel.entities.ResourceEntity;
+import models.referentiel.entities.TeacherEntity;
+import models.referentiel.repositories.CourseRepository;
+import models.referentiel.repositories.CustomerRepository;
+import models.referentiel.repositories.ResourceRepository;
+import models.referentiel.repositories.TeacherRepository;
 import org.bson.BsonString;
 import org.bson.Document;
 
@@ -23,6 +33,10 @@ import java.util.UUID;
 public class AgendaResource
 {
     @Inject MongoClient mongoClient;
+    @Inject CustomerRepository customerRepository;
+    @Inject ResourceRepository resourceRepository;
+    @Inject TeacherRepository teacherRepository;
+    @Inject CourseRepository courseRepository;
 
     //Collection getters
     public MongoCollection<Document> getCoursesCollection(){return mongoClient.getDatabase("courses").getCollection("courses");}
@@ -61,6 +75,8 @@ public class AgendaResource
                 .append("resources",new ArrayList<String>()));
 
         //System.out.println("Acknowledged : " + res.wasAcknowledged());
+        //courseRepository.createCourse(
+          //      new Course(id,type,startDateTime,endDateTime,nbMaxParticipant));
     }
 
     //Creation d'un client
@@ -77,6 +93,8 @@ public class AgendaResource
                 .append("birthdate",birthdate)
                 .append("address",address.toString())
         );
+
+        //customerRepository.createCustomer(new CustomerEntity(customerId,firstname,lastname,birthdate,address.toString()));
     }
 
     public void updateCustomer(UUID customerId, String firstname, String lastname, Date birthdate, CustomerAddress address)
@@ -157,6 +175,8 @@ public class AgendaResource
         {
             System.out.println("L'élément à supprimer n'a pas été trouvé");
         }
+
+        //courseRepository.deleteCourse(courseId);
     }
 
     public void updateEvent(UUID eventId)
@@ -172,6 +192,7 @@ public class AgendaResource
                 .append("firstname",firstname)
         );
         createTeacherCollection(id.toString());
+        //teacherRepository.createTeacher(new TeacherEntity(id,firstname,lastname));
     }
 
     public void assignTeacher(UUID coursesId, UUID teacherId)
@@ -241,6 +262,7 @@ public class AgendaResource
 
         //Creation du calendrier de la resource
         createResourceCollection(resourceId.toString());
+        //resourceRepository.createResource(new ResourceEntity(resourceId,name));
     }
 
     public void addResourceToEvent(UUID eventId, UUID resourceId)
