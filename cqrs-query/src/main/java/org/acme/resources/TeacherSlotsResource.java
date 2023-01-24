@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.acme.models.TeacherAgendaElement;
 import org.acme.services.TeacherSlotsService;
-import org.jboss.resteasy.annotations.jaxrs.QueryParam;
+import org.jboss.resteasy.reactive.RestQuery;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -22,7 +22,7 @@ public class TeacherSlotsResource
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getTeacherAgenda(@QueryParam("id") String id, @QueryParam("start") String startDate, @QueryParam("end") String endDate)
+    public String getTeacherAgenda(@RestQuery("id") String id, @RestQuery("start") String startDate, @RestQuery("end") String endDate)
     {
         List<TeacherAgendaElement> slotList = teacherSlotsService.getAgenda(id,startDate,endDate);
 
