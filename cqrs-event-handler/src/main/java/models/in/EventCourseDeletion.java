@@ -27,12 +27,9 @@ public class EventCourseDeletion extends TopicMessage
     }
 
     @Override
-    public void insertObject(AgendaResource resource) //On insère rien, mais on supprime de la bdd :)
+    public void insertObject(AgendaResource resource)
     {
-        UUID eventId = ((EventCourseDeletion.EventCourseDeletionBody)getBody()).getEventId();
         EventCourseDeletion.EventCourseDeletionBody myBody = (EventCourseDeletion.EventCourseDeletionBody) getBody();
-        //System.out.println(eventId.toString());
-
         resource.deleteEvent(myBody.eventId);
     }
 
@@ -42,15 +39,5 @@ public class EventCourseDeletion extends TopicMessage
     static class EventCourseDeletionBody
     {
         private UUID eventId;
-
-        public UUID getEventId()
-        {
-            return eventId;
-        }
-
-        public void setEventId(UUID eventId)
-        {
-            this.eventId = eventId;
-        }
     }
 }
