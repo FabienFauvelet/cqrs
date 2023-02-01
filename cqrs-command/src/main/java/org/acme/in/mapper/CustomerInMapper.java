@@ -1,5 +1,6 @@
 package org.acme.in.mapper;
 
+import org.acme.domain.model.Address;
 import org.acme.domain.model.Customer;
 import org.acme.in.dto.customer.CreateCustomerCommand;
 import org.acme.in.dto.customer.UpdateCustomerCommand;
@@ -10,4 +11,5 @@ public interface CustomerInMapper {
     Customer toCustomer(CreateCustomerCommand createCustomerCommand);
 
     Customer toCustomer(UpdateCustomerCommand updateCustomerCommand);
+    Address toAddress(CreateCustomerCommand.Address address);
 }
