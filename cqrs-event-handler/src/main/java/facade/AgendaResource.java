@@ -98,6 +98,36 @@ public class AgendaResource
         customerRepository.createCustomer(new CustomerEntity(customerId,firstname,lastname,birthdate,address.toString()));
     }
 
+    public void deleteCustomer(UUID customerId)
+    {
+        //On supprime du referentiel mongo
+        Document customerDoc = getCustomerCollection().findOneAndDelete(new Document().append("_id",customerId.toString()));
+
+        MongoCursor<Document> cursor = getCoursesCollectionByCustomerId(customerId.toString()).find().cursor();
+        while (cursor.hasNext())
+        {
+            Document course = cursor.next();
+            //On supprime l'id client de tous les cours concernés et dans l'agenda du prof (s'il y en un)
+            getCoursesCollection().findOneAndUpdate(
+                    new Document().append("_id",course.getString("_id")),
+                    new Document().append("$pull",
+                            new Document().append("customers", customerId.toString()))
+            );
+
+            if(!"".equals(course.getString("teacherId")) && !(course.getString("teacherId") == null)) //Prof assigné => Suppression label
+            {
+                getTeacherCollectionById(course.getString("teacherId")).findOneAndUpdate(
+                        new Document().append("_id",course.getString("_id")),
+                        new Document().append("$pull",
+                                new Document().append("customers", customerDoc.getString("firstname") + " " + customerDoc.getString("lastname")))
+                );
+            }
+        }
+
+        getCoursesCollectionByCustomerId(customerId.toString()).drop();
+        customerRepository.deleteCustomer(customerId);
+    }
+
     public void updateCustomer(UUID customerId, String firstname, String lastname, Date birthdate, CustomerAddress address)
     {
         getCustomerCollection().findOneAndUpdate(
@@ -405,7 +435,7 @@ public class AgendaResource
         }
         //On supprime la collection de la resource
         getResourceCollectionById(resourceId.toString()).drop();
-
+        //On supprime dans le référentiel
         resourceRepository.deleteResource(resourceId);
     }
 }
