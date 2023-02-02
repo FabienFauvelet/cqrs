@@ -106,7 +106,7 @@ public class Main {
         }
         private LocalDateTime getStartDateTimeOutOfWE(){
             boolean sign = new Random().nextBoolean();
-            LocalDateTime localDateTime = LocalDateTime.now().withHour(getRandom(8,18)).withMinute(0).withSecond(0);
+            LocalDateTime localDateTime = LocalDateTime.now().withHour(getRandom(8,18)).withMinute(0).withSecond(0).withNano(0);
             if(sign){
                 localDateTime=localDateTime.plusDays(getRandom(0,7));
 
