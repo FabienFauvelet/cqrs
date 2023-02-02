@@ -36,6 +36,7 @@ public class EventSwitcher {
         {
             return switch (messageType) {
                 case EVENT_CREATION -> new EventCourseCreation(this.messageType, this.body);
+                case EVENT_UPDATE -> new EventCourseUpdate(this.messageType,this.body);
                 case CUSTOMER_CREATION -> new EventCustomerCreation(this.messageType,this.body);
                 case TEACHER_CREATION -> new EventTeacherCreation(this.messageType,this.body);
                 case RESOURCE_CREATION -> new EventResourceCreation(this.messageType,this.body);
