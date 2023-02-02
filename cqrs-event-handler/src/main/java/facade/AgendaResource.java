@@ -147,6 +147,15 @@ public class AgendaResource
 
         //Suppression de l'élément dans le calendrier du client
         getCoursesCollectionByCustomerId(customerId.toString()).deleteOne(new Document().append("_id",eventId.toString()));
+
+        Document fullCustomerInfo = getCustomerCollection().find(new Document().append("_id",customerId.toString())).first();
+
+        //Supprimer le nom/prénom dans l'agenda du prof
+        getTeacherCollectionById(d.getString("teacherId")).findOneAndUpdate(
+                new Document().append("_id",eventId.toString()),
+                        new Document().append("$pull",
+                                        new Document().append("customers",
+                                                fullCustomerInfo.getString("firstname") + " " + fullCustomerInfo.getString("lastname"))));
     }
 
     public void deleteEvent(UUID courseId)
@@ -154,7 +163,6 @@ public class AgendaResource
         try
         {
             Document courseDoc = getCoursesCollection().find(new Document().append("_id",courseId.toString())).cursor().next();
-
             for (String c : courseDoc.getList("customers",String.class))
             {
                 //GetCollection of the actual customer and delete course in his view
@@ -209,6 +217,8 @@ public class AgendaResource
                                     .append("endDateTime",endDateTime)
                                     .append("courseType",type)));
         }
+
+        courseRepository.updateCourse(new Course(id,type,startDateTime,endDateTime, nbMaxParticipant));
     }
 
     public void createTeacher(UUID id, String lastname, String firstname)
@@ -336,5 +346,18 @@ public class AgendaResource
                     new Document().append("_id",eventId.toString()),
                             new Document().append("$push", new Document().append("resources", resource.getName())));
         }
+    }
+
+    public void deleteTeacher(UUID teacherId)
+    {
+
+        teacherRepository.deleteTeacher(teacherId);
+    }
+
+    public void deleteResource(UUID resourceId)
+    {
+
+
+        resourceRepository.deleteResource(resourceId);
     }
 }

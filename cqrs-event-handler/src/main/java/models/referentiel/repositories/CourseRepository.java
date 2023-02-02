@@ -22,4 +22,10 @@ public class CourseRepository implements PanacheRepository<CourseEntity>
     {
         delete("id",courseId);
     }
+
+    @Transactional
+    public void updateCourse(Course course)
+    {
+        persistAndFlush(course.toEntity());
+    }
 }
