@@ -23,6 +23,7 @@ import org.bson.Document;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.print.Doc;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -350,13 +351,60 @@ public class AgendaResource
 
     public void deleteTeacher(UUID teacherId)
     {
+        //Suppression du referentiel mongo
+        Document teacherDoc = getTeacherCollection().findOneAndDelete(
+                new Document().append("_id",teacherId.toString()));
 
+        //Suppression dans les cours concernés (ref cours + agenda client + agenda resource)
+        MongoCursor<Document> cursor = getTeacherCollectionById(teacherId.toString()).find().cursor();
+        while(cursor.hasNext())
+        {
+            Document course = cursor.next();
+            getCoursesCollection().findOneAndUpdate(new Document().append("_id",course.getString("_id")),
+                    new Document().append("$set", new Document().append("teacherFirstname","")
+                            .append("teacherLastname","")
+                            .append("teacherId","")));
+            for(String c : course.getList("customers",String.class))
+            {
+                getCoursesCollectionByCustomerId(c).findOneAndUpdate(
+                        new Document().append("_id",course.getString("_id")),
+                        new Document().append("$set", new Document().append("teacherFirstname","")
+                                .append("teacherLastname",""))
+                );
+            }
+            for(String r : course.getList("resources",String.class))
+            {
+                getResourceCollectionById(r).findOneAndUpdate(new Document().append("_id",course.getString("_id")),
+                        new Document().append("$set", new Document().append("teacherFullname","")));
+            }
+        }
+        getTeacherCollectionById(teacherId.toString()).drop();
         teacherRepository.deleteTeacher(teacherId);
     }
 
     public void deleteResource(UUID resourceId)
     {
+        //On supprime la resource du référentiel mongo
+        Document resDoc = getResourcesCollection().findOneAndDelete(new Document().append("_id",resourceId.toString()));
+        //On supprime la reference de la resource dans tous les cours
+        MongoCursor<Document> cursor = getResourceCollectionById(resourceId.toString()).find().cursor();
+        while(cursor.hasNext())
+        {
+            Document course = cursor.next();
+            Document updatedCourse = getCoursesCollection().findOneAndUpdate(new Document().append("_id",course.getString("_id")),
+                    new Document().append("$pull",
+                            new Document().append("resources", resourceId.toString())));
 
+            //Si il y a un prof, on enlève le nom de la resource dans son agenda
+            if(!"".equals(updatedCourse.getString("teacherId")) && !(updatedCourse.getString("teacherId") == null)) //Prof assigné => Suppression label
+            {
+                getTeacherCollectionById(updatedCourse.getString("teacherId")).findOneAndUpdate(
+                        new Document().append("_id", updatedCourse.getString("_id")),
+                                new Document().append("$pull", new Document().append("resources", resDoc.getString("name"))));
+            }
+        }
+        //On supprime la collection de la resource
+        getResourceCollectionById(resourceId.toString()).drop();
 
         resourceRepository.deleteResource(resourceId);
     }

@@ -47,6 +47,8 @@ public class EventSwitcher {
                 case CUSTOMER_UPDATE -> new EventCustomerUpdate(this.messageType,this.body);
                 case RESOURCE_RELEASE -> new EventResourceRelease(this.messageType,this.body);
                 case EVENT_DELETION -> new EventCourseDeletion(this.messageType,this.body);
+                case TEACHER_DELETION -> new EventTeacherDeletion(this.messageType,this.body);
+                case RESOURCE_DELETION -> new EventResourceDeletion(this.messageType,this.body);
                 default -> null;
             };
         }catch(Exception e)
