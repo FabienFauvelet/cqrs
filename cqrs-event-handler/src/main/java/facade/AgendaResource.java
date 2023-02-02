@@ -179,9 +179,36 @@ public class AgendaResource
         courseRepository.deleteCourse(courseId);
     }
 
-    public void updateEvent(UUID eventId)
+    public void updateEvent(UUID id, String type, int nbMaxParticipant, LocalDateTime startDateTime, LocalDateTime endDateTime)
     {
-        getCoursesCollection().updateOne(new Document("_id",eventId.toString()),new Document());
+        Document n_course = getCoursesCollection().findOneAndUpdate(
+                new Document().append("_id",id.toString()), new Document().append(
+                        "$set", new Document()
+                                .append("nbMaxParticipant", nbMaxParticipant)
+                                .append("startDateTime", startDateTime)
+                                .append("endDateTime",endDateTime)
+                                .append("type",type)),
+                new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER));
+
+        for(String c : n_course.getList("customers", String.class))
+        {
+            getCoursesCollectionByCustomerId(c).findOneAndUpdate(
+                    new Document().append("_id",id.toString()),
+                    new Document().append("$set",
+                            new Document().append("startDateTime", startDateTime)
+                                    .append("endDateTime",endDateTime)
+                                    .append("type",type)));
+        }
+
+        for(String r : n_course.getList("resources",String.class))
+        {
+            getResourceCollectionById(r).findOneAndUpdate(
+                    new Document().append("_id",id.toString()),
+                    new Document().append("$set",
+                            new Document().append("startDateTime", startDateTime)
+                                    .append("endDateTime",endDateTime)
+                                    .append("courseType",type)));
+        }
     }
 
     public void createTeacher(UUID id, String lastname, String firstname)

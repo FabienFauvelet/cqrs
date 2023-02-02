@@ -31,7 +31,7 @@ public class EventCourseUpdate extends TopicMessage
     public void insertObject(AgendaResource resource)
     {
         EventCourseUpdateBody myBody = (EventCourseUpdateBody) getBody();
-        resource.updateEvent(myBody.getEventId());
+        resource.updateEvent(myBody.getEventId(),myBody.getType(),myBody.getNbMaxParticipant(), myBody.getStartDate(),myBody.getEndDate());
     }
 
     @Getter
@@ -40,6 +40,8 @@ public class EventCourseUpdate extends TopicMessage
     static class EventCourseUpdateBody
     {
         private UUID eventId;
+        private String type;
+        private int nbMaxParticipant;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
     }
