@@ -34,6 +34,7 @@ public class CourseResource {
                 .onItem().transform(Course::from);
     }
     @GET
+    @Path("/overlapping")
     public Multi<Course> getOverlappingCourses(@RestQuery("start") LocalDateTime startDate, @RestQuery("end") LocalDateTime endDate) {
         String sqlDateTimeFormat="YYYYMMDD\"T\"HH24MISS";
         return client.query("SELECT *  FROM course" +
