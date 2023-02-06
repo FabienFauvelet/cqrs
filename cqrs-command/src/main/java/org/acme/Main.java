@@ -89,11 +89,9 @@ public class Main {
                                     return customer;
                                 }).collect(Collectors.toList()))
                                 .teacher(teacher)
-                                .reservedResources(resourceIdList.subList(0,getRandom(1,2)).stream().map(uuid -> {
-                                    Resource resource = new Resource();
-                                    resource.setId(uuid);
-                                    return resource;
-                                }).collect(Collectors.toList()))
+                                .reservedResources(resourceIdList.subList(0,getRandom(1,2)).stream().map(uuid ->
+                                     Resource.builder().id(uuid).build()
+                                ).collect(Collectors.toList()))
                                 .type(typeList.get(new Random().nextInt(typeList.size())))
                                 .build()
                 );

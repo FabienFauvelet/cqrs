@@ -28,9 +28,11 @@ public class ResourceRepository implements PanacheRepository<ResourceEntity> {
         ResourceEntity resourceEntity = resourceMapper.toResourceEntity(resource);
         persistAndFlush(resourceEntity);
     }
+    @Transactional
     public void delete(UUID resourceId) {
         delete("id",resourceId);
     }
+
     @Transactional
     public boolean exists(UUID id) {
         return count("id",id) > 0;

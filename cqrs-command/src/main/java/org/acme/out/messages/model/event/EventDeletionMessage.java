@@ -14,7 +14,7 @@ public class EventDeletionMessage extends CommonMessage {
     }
     @Override
     public MessageType getMessageType() {
-        return null;
+        return MessageType.EVENT_DELETION;
     }
     public static EventDeletionMessageBody.EventDeletionMessageBodyBuilder getBodyBuilder(){
         return EventDeletionMessageBody.builder();

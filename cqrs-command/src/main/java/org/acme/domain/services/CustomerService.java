@@ -38,7 +38,7 @@ public class CustomerService {
         customer.setAddress(null);
         customerRepository.updateCustomer(customer);
         publisher.publishCustomerUpdate(customer);
-        List<Event> enroledEventList = eventRepository.getEnrolledFutureEventList(customerId);
+        List<Event> enroledEventList = eventRepository.getCustomerEnrollmentsInFutureEvents(customerId);
         enroledEventList.forEach(event -> publisher.publishEnrolmentCancellation(event.getId(),customerId));
     }
 }

@@ -64,7 +64,7 @@ public class EventRepository implements PanacheRepository<EventEntity>{
         eventEntity.setTeacher(eventMapper.toTeacherEntity(teacher));
         persistAndFlush(eventEntity);
     }
-
+    @Transactional
     public void delete(UUID eventId) {
         delete("id",eventId);
     }
@@ -79,11 +79,26 @@ public class EventRepository implements PanacheRepository<EventEntity>{
         persistAndFlush(eventEntity);
     }
     @Transactional
-    public List<Event> getEnrolledFutureEventList(UUID customerId) {
+    public List<Event> getCustomerEnrollmentsInFutureEvents(UUID customerId) {
         List<EventEntity> enrolledFutureEventList = streamAll()
                 .filter(eventEntity -> eventEntity.getStartDateTime().isAfter(LocalDateTime.now()) && eventEntity.getParticipants().stream()
                         .anyMatch(customerEntity -> customerEntity.getId().equals(customerId)))
                 .collect(Collectors.toList());
         return eventMapper.toEventDomainList(enrolledFutureEventList);
+    }
+    @Transactional
+    public List<Event> getResourceReservationsInFutureEvents(UUID resourceId) {
+        List<EventEntity> resourceReservationsInFutureEvents = streamAll()
+                .filter(eventEntity -> eventEntity.getStartDateTime().isAfter(LocalDateTime.now()) && eventEntity.getReservedResources().stream()
+                        .anyMatch(resourceEntity -> resourceEntity.getId().equals(resourceId)))
+                .collect(Collectors.toList());
+        return eventMapper.toEventDomainList(resourceReservationsInFutureEvents);
+    }
+    @Transactional
+    public List<Event> getTeacherAssignationsInFutureEvents(UUID teacherId) {
+        List<EventEntity> teacherAssignationsInFutureEvents = streamAll()
+                .filter(eventEntity -> eventEntity.getStartDateTime().isAfter(LocalDateTime.now()) && eventEntity.getTeacher().getId().equals(teacherId))
+                .collect(Collectors.toList());
+        return eventMapper.toEventDomainList(teacherAssignationsInFutureEvents);
     }
 }

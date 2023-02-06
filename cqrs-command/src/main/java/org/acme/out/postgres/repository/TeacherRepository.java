@@ -28,6 +28,7 @@ public class TeacherRepository implements PanacheRepository<TeacherEntity> {
         TeacherEntity teacherEntity = teacherMapper.toTeacherEntity(teacher);
         persistAndFlush(teacherEntity);
     }
+    @Transactional
     public void delete(UUID teacherId) {
         delete("id",teacherId);
     }

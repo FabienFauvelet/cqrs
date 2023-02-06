@@ -16,6 +16,7 @@ import org.acme.out.messages.model.resource.*;
 import org.acme.out.messages.model.shared.Address;
 import org.acme.out.messages.model.teacher.TeacherAssignationMessage;
 import org.acme.out.messages.model.teacher.TeacherCreationMessage;
+import org.acme.out.messages.model.teacher.TeacherUnassignationMessage;
 import org.acme.out.messages.model.teacher.TeacherUpdateMessage;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
@@ -54,6 +55,13 @@ public class Publisher {
     public void publishTeacherAssignation(UUID eventId, Teacher teacher) {
         publish(new TeacherAssignationMessage(
                 TeacherAssignationMessage.getBodyBuilder()
+                        .teacherId(teacher.getId())
+                        .eventId(eventId).build())
+        );
+    }
+    public void publishTeacherUnassignation(UUID eventId, Teacher teacher) {
+        publish(new TeacherUnassignationMessage(
+                TeacherUnassignationMessage.getBodyBuilder()
                         .teacherId(teacher.getId())
                         .eventId(eventId).build())
         );
