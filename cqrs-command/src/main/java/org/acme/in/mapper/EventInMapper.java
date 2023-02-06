@@ -1,6 +1,7 @@
 package org.acme.in.mapper;
 
 import org.acme.domain.exception.InconsistentDomainDataException;
+import org.acme.domain.model.Customer;
 import org.acme.domain.model.Event;
 import org.acme.domain.model.Resource;
 import org.acme.domain.model.Teacher;
@@ -22,4 +23,6 @@ public interface EventInMapper {
     Resource toResource(UUID uuid);
     @Mapping(target = "id", source = ".")
     Teacher toTeacher(UUID uuid);
+    @Mapping(target = "id", source = ".")
+    Customer toCustomer(UUID uuid);
 }
