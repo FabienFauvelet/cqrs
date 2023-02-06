@@ -79,19 +79,21 @@ public class Main {
                 Collections.shuffle(customerIdList);
                 Teacher teacher = new Teacher();
                 teacher.setId(teacherIdList.get(getRandom(0,teacherIdList.size())));
+                List<Customer> customersToEnroll = customerIdList.subList(0, getRandom(5, 10)).stream().map(uuid -> {
+                    Customer customer = new Customer();
+                    customer.setId(uuid);
+                    return customer;
+                }).collect(Collectors.toList());
                 eventService.addEvent(
                         Event.builder()
                                 .startDateTime(startDateTime)
                                 .endDateTime(getEndDateTime(startDateTime))
-                                .participants(customerIdList.subList(0,getRandom(5,10)).stream().map(uuid -> {
-                                    Customer customer = new Customer();
-                                    customer.setId(uuid);
-                                    return customer;
-                                }).collect(Collectors.toList()))
+                                .participants(customersToEnroll)
                                 .teacher(teacher)
                                 .reservedResources(resourceIdList.subList(0,getRandom(1,2)).stream().map(uuid ->
                                      Resource.builder().id(uuid).build()
                                 ).collect(Collectors.toList()))
+                                .nbMaxParticipant(customersToEnroll.size())
                                 .type(typeList.get(new Random().nextInt(typeList.size())))
                                 .build()
                 );
