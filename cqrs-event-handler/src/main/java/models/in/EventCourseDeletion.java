@@ -30,7 +30,7 @@ public class EventCourseDeletion extends TopicMessage
     public void insertObject(AgendaResource resource)
     {
         EventCourseDeletion.EventCourseDeletionBody myBody = (EventCourseDeletion.EventCourseDeletionBody) getBody();
-        resource.deleteEvent(myBody.eventId);
+        resource.deleteEvent(myBody.getId());
     }
 
     @Getter
@@ -38,6 +38,6 @@ public class EventCourseDeletion extends TopicMessage
     @JsonDeserialize
     static class EventCourseDeletionBody
     {
-        private UUID eventId;
+        private UUID id;
     }
 }
