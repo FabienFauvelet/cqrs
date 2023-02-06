@@ -93,6 +93,7 @@ public class EventService {
                 publisher.publishTeacherAssignation(event.getId(),event.getTeacher());
             }
             eventRepository.updateEvent(event);
+            publisher.publishEventUpdate(event);
         }else{
             throw new InconsistentDomainDataException("Cet événement n'existe pas");
         }

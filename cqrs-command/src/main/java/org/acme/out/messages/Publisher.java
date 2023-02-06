@@ -12,6 +12,7 @@ import org.acme.out.messages.model.enrolment.CustomerEnrolmentCancellationMessag
 import org.acme.out.messages.model.enrolment.CustomerEnrolmentMessage;
 import org.acme.out.messages.model.event.EventCreationMessage;
 import org.acme.out.messages.model.event.EventDeletionMessage;
+import org.acme.out.messages.model.event.EventUpdateMessage;
 import org.acme.out.messages.model.resource.*;
 import org.acme.out.messages.model.shared.Address;
 import org.acme.out.messages.model.teacher.TeacherAssignationMessage;
@@ -179,6 +180,18 @@ public class Publisher {
         publish(new ResourceDeletionMessage(ResourceDeletionMessage.getBodyBuilder()
                 .id(resourceId)
                 .build())
+        );
+    }
+
+    public void publishEventUpdate(Event event) {
+        publish(new EventUpdateMessage(
+                EventUpdateMessage.getBodyBuilder()
+                        .id(event.getId())
+                        .startDateTime(event.getStartDateTime())
+                        .endDateTime(event.getEndDateTime())
+                        .nbMaxParticipant(event.getNbMaxParticipant())
+                        .type(event.getType())
+                        .build())
         );
     }
 }
