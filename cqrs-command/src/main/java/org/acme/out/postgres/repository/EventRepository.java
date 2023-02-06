@@ -26,7 +26,7 @@ public class EventRepository implements PanacheRepository<EventEntity>{
     
     @Inject
     EventMapper eventMapper;
-
+    @Transactional
     public Event getEvent(UUID id){
         EventEntity eventEntity = find("id",id).firstResult();
         try {
@@ -48,6 +48,7 @@ public class EventRepository implements PanacheRepository<EventEntity>{
     @Transactional
     public void updateEvent(Event event){
         EventEntity eventEntity = eventMapper.toEventEntity(event);
+        eventEntity=getEntityManager().merge(eventEntity);
         persistAndFlush(eventEntity);
     }
 
