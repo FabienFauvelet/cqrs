@@ -49,7 +49,7 @@ public class CourseResource {
     CourseSlotService courseService;
 
     @GET
-    @Path("/getAll")
+    @Path("/full")
     public String getCoursesFromMongo()
     {
         List<CourseElement> courses = courseService.getAllCourses();
