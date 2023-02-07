@@ -1,6 +1,7 @@
 package models.referentiel.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Data
 @Table(name = "course")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,4 +27,6 @@ public class CourseEntity
     private LocalDateTime endDateTime;
     @Column(name = "nbmaxparticipant")
     private int nbMaxParticipant;
+    @Column(name = "alive")
+    private boolean alive;
 }

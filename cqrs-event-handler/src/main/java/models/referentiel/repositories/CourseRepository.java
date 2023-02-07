@@ -20,12 +20,23 @@ public class CourseRepository implements PanacheRepository<CourseEntity>
     @Transactional
     public void deleteCourse(UUID courseId)
     {
-        delete("id",courseId);
+        CourseEntity ent = find("id",courseId).firstResult();
+        System.out.println("Suppression : Id = " + ent.getId().toString());
+        System.out.println("Alive ? : " + ent.isAlive());
+        ent.setAlive(false);
+        System.out.println("Alive now  ? : " + ent.isAlive());
+        persistAndFlush(ent);
     }
 
     @Transactional
     public void updateCourse(Course course)
     {
-        persistAndFlush(course.toEntity());
+        CourseEntity entCourse = find("id",course.getId()).firstResult();
+        entCourse.setAlive(course.isAlive());
+        entCourse.setEndDateTime(course.getEndDateTime());
+        entCourse.setStartDateTime(course.getStartDateTime());
+        entCourse.setType(course.getType());
+        entCourse.setNbMaxParticipant(course.getNbMaxParticipant());
+        persist(entCourse);
     }
 }

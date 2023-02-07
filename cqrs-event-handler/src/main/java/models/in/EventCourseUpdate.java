@@ -3,7 +3,6 @@ package models.in;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import facade.AgendaResource;
-import jdk.jfr.Event;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,7 +30,7 @@ public class EventCourseUpdate extends TopicMessage
     public void insertObject(AgendaResource resource)
     {
         EventCourseUpdateBody myBody = (EventCourseUpdateBody) getBody();
-        resource.updateEvent(myBody.getEventId(),myBody.getType(),myBody.getNbMaxParticipant(), myBody.getStartDate(),myBody.getEndDate());
+        resource.updateEvent(myBody.getId(),myBody.getType(),myBody.getNbMaxParticipant(), myBody.getStartDateTime(),myBody.getEndDateTime());
     }
 
     @Getter
@@ -39,10 +38,10 @@ public class EventCourseUpdate extends TopicMessage
     @JsonDeserialize
     static class EventCourseUpdateBody
     {
-        private UUID eventId;
+        private UUID id;
         private String type;
         private int nbMaxParticipant;
-        private LocalDateTime startDate;
-        private LocalDateTime endDate;
+        private LocalDateTime startDateTime;
+        private LocalDateTime endDateTime;
     }
 }

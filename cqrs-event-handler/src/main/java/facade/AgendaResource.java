@@ -72,12 +72,13 @@ public class AgendaResource
                 .append("startDateTime",startDateTime)
                 .append("endDateTime",endDateTime)
                 .append("nbMaxParticipant",nbMaxParticipant)
+                .append("alive",true)
                 .append("customers",new ArrayList<String>())
                 .append("resources",new ArrayList<String>()));
 
         //System.out.println("Acknowledged : " + res.wasAcknowledged());
         courseRepository.createCourse(
-                new Course(id,type,startDateTime,endDateTime,nbMaxParticipant));
+                new Course(id,type,startDateTime,endDateTime,nbMaxParticipant, true));
     }
 
     //Creation d'un client
@@ -207,14 +208,18 @@ public class AgendaResource
                 );
             }
             //Course deletion
-            getCoursesCollection().deleteOne(new Document().append("_id", courseId.toString()));
             getTeacherCollectionById(courseDoc.getString("teacherId")).deleteOne(new Document().append("_id",courseId.toString()));
+
+            getCoursesCollection().findOneAndUpdate(
+                    new Document().append("_id",courseId.toString()),
+                    new Document().append("$set",
+                            new Document().append("alive", false))
+            );
         }
         catch(NoSuchElementException e)
         {
             System.out.println("L'élément à supprimer n'a pas été trouvé");
         }
-
         courseRepository.deleteCourse(courseId);
     }
 
@@ -249,7 +254,7 @@ public class AgendaResource
                                     .append("courseType",type)));
         }
 
-        courseRepository.updateCourse(new Course(id,type,startDateTime,endDateTime, nbMaxParticipant));
+        courseRepository.updateCourse(new Course(id,type,startDateTime,endDateTime, nbMaxParticipant, true));
     }
 
     public void createTeacher(UUID id, String lastname, String firstname)

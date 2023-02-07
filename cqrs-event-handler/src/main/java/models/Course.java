@@ -2,7 +2,6 @@ package models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import models.referentiel.entities.CourseEntity;
 
@@ -19,9 +18,10 @@ public class Course
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     private int nbMaxParticipant;
+    private boolean alive;
 
     public CourseEntity toEntity()
     {
-        return new CourseEntity(id,type,startDateTime,endDateTime,nbMaxParticipant);
+        return new CourseEntity(id,type,startDateTime,endDateTime,nbMaxParticipant,alive);
     }
 }
