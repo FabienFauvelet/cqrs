@@ -29,8 +29,9 @@ public class CourseElement
     private String teacherFirstName;
     private String teacherLastName;
     private String teacherId;
+    private boolean alive;
 
-    public CourseElement(String id, String type, int nbMaxParticipant, Date startDate, Date endDate, List<String> resources, List<String> customers, String teacherFirstName, String teacherLastName, String teacherId)
+    public CourseElement(String id, String type, int nbMaxParticipant, Date startDate, Date endDate, List<String> resources, List<String> customers, String teacherFirstName, String teacherLastName, String teacherId, boolean alive)
     {
         this.id = id;
         this.type = type;
@@ -42,6 +43,7 @@ public class CourseElement
         this.teacherFirstName = teacherFirstName;
         this.teacherLastName = teacherLastName;
         this.teacherId = teacherId;
+        this.alive = alive;
     }
 
     public LocalDateTime convertToLocalDateViaInstant(Date dateToConvert) {

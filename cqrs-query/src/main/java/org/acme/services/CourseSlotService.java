@@ -36,7 +36,8 @@ public class CourseSlotService
                             course.getList("customers",String.class),
                             course.getString("teacherFirstname"),
                             course.getString("teacherLastname"),
-                            course.getString("teacherId")
+                            course.getString("teacherId"),
+                            course.getBoolean("alive")
                     ));
         }
 
